@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] public float MovementSpeed;
-    [SerializeField] public float JumpStrength;
-    [SerializeField] public float CoyoteTime;
-    [SerializeField] public Vector3 FeetOffset;
-    [SerializeField] public LayerMask PlatformLayer;
+    [SerializeField] float MovementSpeed;
+    [SerializeField] float JumpStrength;
+    [SerializeField] float CoyoteTime;
+    [SerializeField] Vector3 FeetOffset;
+    [SerializeField] LayerMask PlatformLayer;
 
     private bool wantToJump;
     private Vector3 FeetPostion;
@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
 
         if (xInput != 0)
         {
-            transform.Translate(Vector3.right * xInput * Time.deltaTime * MovementSpeed);
+            transform.Translate(MovementSpeed * Time.deltaTime * xInput * Vector3.right);
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
             {
                 wantToJump = false;
                 rb.velocity = Vector3.zero;
-                rb.AddForce(Vector3.up * Time.deltaTime * JumpStrength);
+                rb.AddForce(JumpStrength * Time.deltaTime * Vector3.up);
             }
         }
 
