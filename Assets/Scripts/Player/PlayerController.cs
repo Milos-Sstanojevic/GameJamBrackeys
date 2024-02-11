@@ -60,23 +60,22 @@ public class PlayerController : MonoBehaviour
         {
             leftJumps = MaxJumps;
         }
-        else if (coyoteTimeFulfilled && leftJumps == MaxJumps)
+        else if (leftJumps == MaxJumps)
         {
-
+            if (!coyoteTimeFulfilled)
+            {
+                leftJumps = MaxJumps - 1;
+            }
         }
-
 
         if (leftJumps > 0 && jumpPressed)
         {
-            Debug.Log(leftJumps);
-
             rb.velocity = Vector3.zero;
             rb.AddForce(JumpStrength * Vector3.up,ForceMode2D.Impulse);
             leftJumps--;
             jumpPressed = false;
         }
         else if (!jumpBufferTimeFulfilled)
-
         {
             jumpPressed = false;
         }
