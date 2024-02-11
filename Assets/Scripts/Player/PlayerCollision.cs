@@ -1,24 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class PlayerCollision : MonoBehaviour
 {
-    [SerializeField] LayerMask killerLayer;
-    [SerializeField] LayerMask damangeLayer;
+    [SerializeField] string deadlyTag;
+    [SerializeField] string damageTag;
     [SerializeField] UnityEvent playerDied;
     [SerializeField] UnityEvent<int> playerTookDamage;
-    private void OnCollisionEnter(Collision collision)
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        var cl = collision.gameObject.layer;
-        if (cl == killerLayer)
+        Debug.Log(collision.gameObject.name);
+        if (collision.gameObject.CompareTag(deadlyTag))
         {
             playerDied.Invoke();
         }
-        else if (cl == damangeLayer)
+        else if (collision.gameObject.CompareTag(damageTag))
         {
-            playerTookDamage.Invoke(-99);
+            playerTookDamage.Invoke(10);
+            GameObject.Destroy(collision.gameObject);
         }
     }
 }
