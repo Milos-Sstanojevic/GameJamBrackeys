@@ -50,7 +50,12 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         //bool isGrounded = Physics2D.OverlapCircle(transform.position + FeetOffset, .1f, PlatformLayer) != null;
-        bool isGrounded = Physics2D.OverlapArea(transform.position + FeetOffset - new Vector3(.5f, .1f, 0), transform.position + FeetOffset + new Vector3(.5f, .1f, 0), PlatformLayer) != null;
+        //bool isGrounded = Physics2D.OverlapArea(transform.position + FeetOffset - new Vector3(.5f, .1f, 0), transform.position + FeetOffset + new Vector3(.5f, .1f, 0), PlatformLayer) != null;
+        var feetPosition = transform.position + FeetOffset;
+        var hit1 = Physics2D.Raycast(feetPosition + Vector3.left * .5f, Vector3.down, .1f);
+        var hit2 = Physics2D.Raycast(feetPosition + Vector3.right * .5f, Vector3.down, .1f);
+
+        bool isGrounded = hit1.collider || hit2.collider;
         bool coyoteTimeFulfilled = !isGrounded && (Time.time - lastTimeGrounded) < CoyoteTime;
         bool jumpBufferTimeFulfilled = (Time.time - lastTimeJumpPressed) < JumpBufferTime;
 
