@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 3
   shootingDistance: 30
-  shootingSpeed: 1
-  bulletSpeed: 50
+  shootingSpeed: 0.7
+  bulletSpeed: 70

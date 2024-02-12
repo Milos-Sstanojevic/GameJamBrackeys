@@ -31,9 +31,19 @@ public class BulletPool : MonoBehaviour
     private void Start()
     {
         pool = new ObjectPool<Bullet>(
-            () => Instantiate(bulletPrefab).GetComponent<Bullet>(),
-            bullet => bullet.gameObject.SetActive(true),
-            bullet => bullet.gameObject.SetActive(false),
+            () =>
+            {
+                Bullet bullet = Instantiate(bulletPrefab).GetComponent<Bullet>();
+                return bullet;
+            },
+            bullet =>
+            {
+                bullet.gameObject.SetActive(true);
+            },
+            bullet =>
+            {
+                bullet.gameObject.SetActive(false);
+            },
             bullet => Destroy(bullet.gameObject),
             true, 20, 40
         );

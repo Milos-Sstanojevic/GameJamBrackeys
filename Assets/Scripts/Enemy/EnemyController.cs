@@ -46,6 +46,11 @@ public class EnemyController : MonoBehaviour
         var diff = (target.position - transform.position).normalized;
 
         var bullet = BulletPool.Instance.GetBullet();
+
+        var trailRendered = bullet.GetComponent<TrailRenderer>();
+        trailRendered.Clear();
+        trailRendered.AddPosition(transform.position);
+
         bullet.transform.position = transform.position;
         bullet.Velocity = diff * configuration.bulletSpeed;
         bullet.ActivationTime = Time.time;
