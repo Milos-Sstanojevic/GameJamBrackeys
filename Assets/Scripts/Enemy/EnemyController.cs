@@ -13,12 +13,7 @@ public class EnemyController : MonoBehaviour
 {
     [SerializeField] float leftBoundary;
     [SerializeField] float rightBoundary;
-    [SerializeField] float movementSpeed;
-    [SerializeField] float shootingDistance;
-    [SerializeField] float shootingSpeed;
-    [SerializeField] float bulletSpeed;
-
-    [SerializeField] GameObject bulletPrefab;
+    [SerializeField] EnemyData configuration;
 
     private Transform target;
     private EnemyState state;
@@ -52,7 +47,7 @@ public class EnemyController : MonoBehaviour
 
         var bullet = BulletPool.Instance.GetBullet();
         bullet.transform.position = transform.position;
-        bullet.Velocity = diff * bulletSpeed;
+        bullet.Velocity = diff * configuration.bulletSpeed;
         bullet.ActivationTime = Time.time;
     }
     private void GetCloser()
@@ -60,16 +55,16 @@ public class EnemyController : MonoBehaviour
         var diff = target.position.x - transform.position.x;
         if (Mathf.Abs(diff) > 0.1f)
         {
-            transform.Translate(Mathf.Sign(diff) * movementSpeed * Time.deltaTime * Vector3.right);
+            transform.Translate(Mathf.Sign(diff) * configuration.movementSpeed * Time.deltaTime * Vector3.right);
         }
 
         if (transform.position.x < leftBoundary)
         {
-            transform.Translate(1 * movementSpeed * Time.deltaTime * Vector3.right);
+            transform.Translate(1 * configuration.movementSpeed * Time.deltaTime * Vector3.right);
         }
         else if (transform.position.x > rightBoundary)
         {
-            transform.Translate(-1 * movementSpeed * Time.deltaTime * Vector3.right);
+            transform.Translate(-1 * configuration.movementSpeed * Time.deltaTime * Vector3.right);
         }
     }
 
@@ -77,10 +72,10 @@ public class EnemyController : MonoBehaviour
     {
         Shoot();
         state = EnemyState.GettingCloser;
-        yield return new WaitForSeconds(shootingSpeed);
+        yield return new WaitForSeconds(configuration.shootingSpeed);
 
         var distanceToTarget = (target.position - transform.position).magnitude;
-        if (distanceToTarget < shootingDistance)
+        if (distanceToTarget < configuration.shootingDistance)
         {
             state = EnemyState.Alerted;
         }
@@ -91,21 +86,21 @@ public class EnemyController : MonoBehaviour
     }
     private void Idle()
     {
-        transform.Translate(direction * movementSpeed * Time.deltaTime * Vector3.right);
+        transform.Translate(direction * configuration.movementSpeed * Time.deltaTime * Vector3.right);
 
         if (transform.position.x < leftBoundary)
         {
             direction = 1;
-            transform.Translate(direction * movementSpeed * Time.deltaTime * Vector3.right);
+            transform.Translate(direction * configuration.movementSpeed * Time.deltaTime * Vector3.right);
         }
         else if (transform.position.x > rightBoundary)
         {
             direction = -1;
-            transform.Translate(direction * movementSpeed * Time.deltaTime * Vector3.right);
+            transform.Translate(direction * configuration.movementSpeed * Time.deltaTime * Vector3.right);
         }
 
         var distanceToTarget = (target.position - transform.position).magnitude;
-        if (distanceToTarget < shootingDistance)
+        if (distanceToTarget < configuration.shootingDistance)
         {
             state = EnemyState.Alerted;
         }

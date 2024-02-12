@@ -44,9 +44,11 @@ public class PlayerController : MonoBehaviour
             jumpPressed = true;
             lastTimeJumpPressed = Time.time;
         }
+
     //}
     //private void FixedUpdate()
     //{
+
         leftFeet = transform.position + FeetVerticalOffset + Vector3.left * FeetSpread;
         rightFeet = transform.position + FeetVerticalOffset + Vector3.right * FeetSpread;
 
