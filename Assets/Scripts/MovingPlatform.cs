@@ -6,7 +6,7 @@ using UnityEngine;
 public class MovingPlatform : MonoBehaviour
 {
     [SerializeField] float movingSpeed;
-    [SerializeField] float range;
+    [SerializeField] Vector3 range;
 
     private Vector3 homePosition;
     void Start()
@@ -15,7 +15,8 @@ public class MovingPlatform : MonoBehaviour
     }
     void Update()
     {
-        transform.position = Mathf.Sin(Time.time * movingSpeed) * range * Vector3.up + homePosition;
+        float t = Mathf.Sin(Time.time * movingSpeed) + 1f / 2f;
+        transform.position = homePosition + t * range;
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

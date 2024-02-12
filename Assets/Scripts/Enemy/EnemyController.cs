@@ -48,11 +48,12 @@ public class EnemyController : MonoBehaviour
     }
     private void Shoot()
     {
-        var bullet = Instantiate(bulletPrefab).GetComponent<Bullet>();
+        var diff = (target.position - transform.position).normalized;
+
+        var bullet = BulletPool.Instance.GetBullet();
         bullet.transform.position = transform.position;
-        var diff = target.position - transform.position;
-        diff.Normalize();
         bullet.Velocity = diff * bulletSpeed;
+        bullet.ActivationTime = Time.time;
     }
     private void GetCloser()
     {
