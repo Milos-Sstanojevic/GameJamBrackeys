@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour
 {
+    [SerializeField] float timeOffset;
     [SerializeField] float movingSpeed;
     [SerializeField] Vector3 range;
 
@@ -15,7 +16,7 @@ public class MovingPlatform : MonoBehaviour
     }
     void Update()
     {
-        float t = Mathf.Sin(Time.time * movingSpeed) + 1f / 2f;
+        float t = Mathf.Sin(timeOffset + Time.time * movingSpeed) + 1f / 2f;
         transform.position = homePosition + t * range;
     }
     private void OnCollisionEnter2D(Collision2D collision)
