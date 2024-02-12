@@ -7,7 +7,6 @@ using UnityEngine.Events;
 public class PlayerCollision : MonoBehaviour
 {
     [SerializeField] string deadlyTag;
-    [SerializeField] string damageTag;
     [SerializeField] UnityEvent playerDied;
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -15,6 +14,6 @@ public class PlayerCollision : MonoBehaviour
         if (collision.gameObject.CompareTag(deadlyTag))
         {
             playerDied.Invoke();
-        } 
+        }
     }
 }
