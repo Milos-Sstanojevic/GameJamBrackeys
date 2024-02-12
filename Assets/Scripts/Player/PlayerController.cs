@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float CoyoteTime;
     [SerializeField] float JumpBufferTime;
     [SerializeField] Vector3 FeetOffset;
-    [SerializeField] LayerMask PlatformLayer;
 
     private int leftJumps;
     private bool jumpPressed;
@@ -35,7 +34,7 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-        var xInput = Input.GetAxis("Horizontal");
+        var xInput = Input.GetAxisRaw("Horizontal");
 
         if (xInput != 0)
         {
