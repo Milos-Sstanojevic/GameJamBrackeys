@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e10bb331cf21b14082f93a9c279cf5b, type: 3}
   m_Name: StrongerEnemy
   m_EditorClassIdentifier: 
-  movementSpeed: 0
-  shootingDistance: 0
-  shootingSpeed: 0
-  bulletSpeed: 0
+  movementSpeed: 3
+  shootingDistance: 30
+  shootingSpeed: 1
+  bulletSpeed: 50
