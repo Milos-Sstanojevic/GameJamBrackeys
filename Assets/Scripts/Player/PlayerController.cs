@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,8 +14,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float JumpStrength;
     [SerializeField] float CoyoteTime;
     [SerializeField] float JumpBufferTime;
-    [SerializeField] Vector3 FeetVerticalOffset;
     [SerializeField] float FeetSpread;
+    [SerializeField] Vector3 FeetVerticalOffset;
 
     private int leftJumps;
     private bool jumpPressed;
@@ -34,6 +35,8 @@ public class PlayerController : MonoBehaviour
         lastTimeGrounded = float.MinValue;
         lastTimeJumpPressed = float.MinValue;
     }
+    private Vector3 leftFeet;
+    private Vector3 rightFeet;
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -41,21 +44,16 @@ public class PlayerController : MonoBehaviour
             jumpPressed = true;
             lastTimeJumpPressed = Time.time;
         }
-    }
-    private Vector3 leftFeet;
-    private Vector3 rightFeet;
-    private void FixedUpdate()
-    {
-        //bool isGrounded = Physics2D.OverlapCircle(transform.position + FeetOffset, .1f, PlatformLayer) != null;
-        //bool isGrounded = Physics2D.OverlapArea(transform.position + FeetOffset - new Vector3(.5f, .1f, 0), transform.position + FeetOffset + new Vector3(.5f, .1f, 0), PlatformLayer) != null;
-       
+    //}
+    //private void FixedUpdate()
+    //{
         leftFeet = transform.position + FeetVerticalOffset + Vector3.left * FeetSpread;
         rightFeet = transform.position + FeetVerticalOffset + Vector3.right * FeetSpread;
 
-        var hit1 = Physics2D.Raycast(leftFeet, Vector3.down, .1f);
-        var hit2 = Physics2D.Raycast(rightFeet, Vector3.down, .1f);
+        var hit1 = Physics2D.RaycastAll(leftFeet, Vector3.down, .1f).Any(hit => hit.collider.CompareTag("Platform"));
+        var hit2 = Physics2D.RaycastAll(rightFeet, Vector3.down, .1f).Any(hit => hit.collider.CompareTag("Platform"));
 
-        bool isGrounded = hit1.collider || hit2.collider;
+        bool isGrounded = hit1 || hit2;
         bool coyoteTimeFulfilled = !isGrounded && (Time.time - lastTimeGrounded) < CoyoteTime;
         bool jumpBufferTimeFulfilled = (Time.time - lastTimeJumpPressed) < JumpBufferTime;
 
@@ -85,12 +83,7 @@ public class PlayerController : MonoBehaviour
             jumpPressed = false;
         }
 
-        var xInput = Input.GetAxisRaw("Horizontal");
-
-        if (xInput != 0)
-        {
-            transform.Translate(MovementSpeed * Time.deltaTime * xInput * Vector3.right);
-        }
+        transform.Translate(MovementSpeed * Time.deltaTime * Input.GetAxisRaw("Horizontal") * Vector3.right);
     }
     private void OnDrawGizmos()
     {
