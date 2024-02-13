@@ -56,7 +56,9 @@ public class DoorsController : MonoBehaviour
         }
     }
 
-    public DoorColor GetDoorColor() => doorScriptableObject.doorColor;
+    public DoorColor GetDoorColor() => doorScriptableObject.DoorColor;
+
+    public bool IsDoorPremadeInScene() => doorScriptableObject.IsPremadeInScene;
 
 
 }

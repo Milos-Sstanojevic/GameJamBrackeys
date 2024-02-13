@@ -94,6 +94,7 @@ public class PlayerController : MonoBehaviour
 
         transform.Translate(MovementSpeed * Time.deltaTime * Input.GetAxisRaw("Horizontal") * Vector3.right);
     }
+
     private void PlaceDoor()
     {
         if (Input.GetKeyDown(KeyCode.G))
@@ -129,7 +130,7 @@ public class PlayerController : MonoBehaviour
 
     private void CollectDoor()
     {
-        if (Input.GetKeyDown(KeyCode.K) && currentTouchingDoor != null)
+        if (Input.GetKeyDown(KeyCode.K) && currentTouchingDoor != null && !currentTouchingDoor.IsDoorPremadeInScene())
         {
             EventManager.Instance.OnCollectDoor(currentTouchingDoor);
         }

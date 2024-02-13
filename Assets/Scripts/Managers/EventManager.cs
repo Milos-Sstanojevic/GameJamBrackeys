@@ -9,6 +9,8 @@ public class EventManager : MonoBehaviour
     private event Action<DoorsController, Vector3> placeDoorVerticallyAction;
     private event Action<DoorsController> collectDoorAction;
     private event Action<DoorsController, PlayerController> teleportPlayerAction;
+    private event Action<DoorColor> createDoorAction;
+    private event Action<DoorColor> takeDoorFromInventoryAction;
 
     private void Awake()
     {
@@ -16,6 +18,16 @@ public class EventManager : MonoBehaviour
             Instance = this;
         else
             Destroy(gameObject);
+    }
+
+    public void SubscribeToTakeDoorFromInventoryAction(Action<DoorColor> action)
+    {
+        takeDoorFromInventoryAction += action;
+    }
+
+    public void SubscribeToCreateDoorAction(Action<DoorColor> action)
+    {
+        createDoorAction += action;
     }
 
     public void SubscribeToTeleportPlayer(Action<DoorsController, PlayerController> action)
@@ -53,6 +65,16 @@ public class EventManager : MonoBehaviour
         teleportPlayerAction -= action;
     }
 
+    public void UnsubscribeToCreateDoorAction(Action<DoorColor> action)
+    {
+        createDoorAction -= action;
+    }
+
+    public void UnsubscribeToTakeDoorFromInventoryAction(Action<DoorColor> action)
+    {
+        takeDoorFromInventoryAction -= action;
+    }
+
     public void OnPlaceDoorHorizontally(DoorsController door, Vector3 position)
     {
         placeDoorHorizontallyAction?.Invoke(door, position);
@@ -71,5 +93,15 @@ public class EventManager : MonoBehaviour
     public void OnTeleportPlayer(DoorsController door, PlayerController player)
     {
         teleportPlayerAction?.Invoke(door, player);
+    }
+
+    public void OnCreateDoor(DoorColor color)
+    {
+        createDoorAction?.Invoke(color);
+    }
+
+    public void OnTakeDoor(DoorColor color)
+    {
+        takeDoorFromInventoryAction?.Invoke(color);
     }
 }

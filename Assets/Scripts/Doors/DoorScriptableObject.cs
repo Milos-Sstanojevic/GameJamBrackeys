@@ -3,8 +3,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DoorData", menuName = "ScriptableObjects/DoorData")]
 public class DoorScriptableObject : ScriptableObject
 {
-    public DoorColor doorColor;
-    public bool isPremadeInScene;
+    public DoorColor DoorColor;
+    public bool IsPremadeInScene;
 }
 
 public enum DoorColor

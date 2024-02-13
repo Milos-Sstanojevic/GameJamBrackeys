@@ -4,7 +4,7 @@ using UnityEngine;
 public class DoorsSpawnManager : MonoBehaviour
 {
     public static DoorsSpawnManager Instance { get; private set; }
-    private List<DoorsController> doorsForPlayer;
+    private List<DoorsController> teleportAvailableDoors;
     [SerializeField] private List<DoorsController> doorsPlayerStartsWith;
     [SerializeField] private List<DoorsController> doorsInScene;
     [SerializeField] private DoorsController greenDoorPrefab;
@@ -18,28 +18,40 @@ public class DoorsSpawnManager : MonoBehaviour
         else
             Destroy(gameObject);
 
-        doorsForPlayer = new List<DoorsController>();
+        teleportAvailableDoors = new List<DoorsController>();
+    }
+
+    private void OnEnable()
+    {
+        EventManager.Instance.SubscribeToCreateDoorAction(CreateDoor);
     }
 
     private void Start()
     {
-        Initialize();
+        InitializePlayerInventory();
+        InitializeTeleportAvailableDoors();
     }
 
-    private void Initialize()
+    private void InitializeTeleportAvailableDoors()
+    {
+        foreach (DoorsController door in doorsInScene)
+            teleportAvailableDoors.Add(door);
+    }
+
+    private void InitializePlayerInventory()
     {
         foreach (DoorsController door in doorsPlayerStartsWith)
         {
-            DoorsController doors = Instantiate(door);
-            PlayerDoorInventory.Instance.AddDoorToPlayerInventory(doors);
+            DoorsController d = Instantiate(door);
+            PlayerDoorInventory.Instance.AddDoorToPlayerInventory(d);
+            teleportAvailableDoors.Add(d);
         }
     }
-
 
     public List<DoorsController> GetActiveDoorsOfColor(DoorColor color)
     {
         List<DoorsController> doors = new List<DoorsController>();
-        foreach (DoorsController door in doorsForPlayer)
+        foreach (DoorsController door in teleportAvailableDoors)
         {
             if (door.GetDoorColor() == color && door.gameObject.active)
                 doors.Add(door);
@@ -60,6 +72,4 @@ public class DoorsSpawnManager : MonoBehaviour
         if (color == DoorColor.Blue)
             PlayerDoorInventory.Instance.AddDoorToPlayerInventory(Instantiate(blueDoorsPrefab));
     }
-
-    public List<DoorsController> GetAllDoorsForPlayer() => doorsForPlayer;
 }
