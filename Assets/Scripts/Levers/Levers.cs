@@ -5,29 +5,46 @@ using UnityEngine;
 
 public class Levers : MonoBehaviour
 {
-    [SerializeField] private Transform movingDoorsTransform;
-    private Vector3 originalPosition;
-    private Vector3 targetPosition;
-    [SerializeField] private bool doorOpen = false;
+    private Dictionary<Transform, Vector3> originalPositions = new Dictionary<Transform, Vector3>();
+    private Dictionary<Transform, Vector3> targetPositions = new Dictionary<Transform, Vector3>();
     [SerializeField] private float timer = 3f;
     [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private float distance;
+    [SerializeField] private List<Transform> movingDoors = new List<Transform>();
+
+
+    public void AddDoorToLever(Transform movingPlatform)
+    {
+        movingDoors.Add(movingPlatform);
+    }
 
     void Start()
     {
-        originalPosition = movingDoorsTransform.position;
-        targetPosition = originalPosition + Vector3.up * distance;
+        for (int i = 0; i < movingDoors.Count; i++)
+        {
+            Transform movingPlatform = movingDoors[i];
+            originalPositions[movingPlatform] = movingPlatform.position;
+            if (i % 2 == 0)
+            {
+                targetPositions[movingPlatform] = originalPositions[movingPlatform] + Vector3.up * distance;
+            }
+            else
+            {
+                 targetPositions[movingPlatform] = originalPositions[movingPlatform] + Vector3.up * -distance;
+            }
+        }
     }
 
     void OnTriggerStay2D(Collider2D other)
     {
         if (other.GetComponent<PlayerController>() != null)
         {
-            if (Input.GetKeyDown(KeyCode.E) && !doorOpen)
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                doorOpen = true;
-                Debug.Log("Opening doors");
-                StartCoroutine(MoveDoors(targetPosition));
+                foreach (Transform movingPlatform in movingDoors)
+                {
+                    StartCoroutine(MoveDoors(movingPlatform, targetPositions[movingPlatform]));
+                }
                 StartCoroutine(CloseDoor());
             }
         }
@@ -36,23 +53,24 @@ public class Levers : MonoBehaviour
     IEnumerator CloseDoor()
     {
         yield return new WaitForSeconds(timer);
-        doorOpen = false;
-        Debug.Log("Closing doors");
-        StartCoroutine(MoveDoors(originalPosition));
+        foreach (Transform movingPlatform in movingDoors)
+        {
+            StartCoroutine(MoveDoors(movingPlatform, originalPositions[movingPlatform]));
+        }
     }
 
-    IEnumerator MoveDoors(Vector3 target)
+    IEnumerator MoveDoors(Transform movingPlatform, Vector3 target)
     {
-        Vector3 startPosition = movingDoorsTransform.position;
+        Vector3 startPosition = movingPlatform.position;
         float elapsedTime = 0;
 
         while (elapsedTime < timer)
         {
-            movingDoorsTransform.position = Vector3.Lerp(startPosition, target, (elapsedTime / timer) * moveSpeed);
+            movingPlatform.position = Vector3.Lerp(startPosition, target, (elapsedTime / timer) * moveSpeed);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        movingDoorsTransform.position = target;
+        movingPlatform.position = target;
     }
 }
