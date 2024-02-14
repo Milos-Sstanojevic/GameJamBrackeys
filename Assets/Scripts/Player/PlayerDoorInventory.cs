@@ -34,12 +34,19 @@ public class PlayerDoorInventory : MonoBehaviour
 
         return null;
     }
+    public DoorsController this[int index]
+    {
+        get
+        {
+            return inventoryOfPlayer.Count > index ? inventoryOfPlayer[index] : null;
+        }
+    }
 
     public DoorsController GetRedDoors()
     {
         foreach (DoorsController door in inventoryOfPlayer)
         {
-            if (door.GetDoorColor() == DoorColor.Red && door.gameObject.active == false)
+            if (door.GetDoorColor() == DoorColor.Red && door.gameObject.activeSelf == false)
             {
                 EventManager.Instance.OnTakeDoor(door.GetDoorColor());
                 return door;
@@ -53,7 +60,7 @@ public class PlayerDoorInventory : MonoBehaviour
     {
         foreach (DoorsController door in inventoryOfPlayer)
         {
-            if (door.GetDoorColor() == DoorColor.Green && door.gameObject.active == false)
+            if (door.GetDoorColor() == DoorColor.Green && door.gameObject.activeSelf == false)
             {
                 EventManager.Instance.OnTakeDoor(door.GetDoorColor());
                 return door;
@@ -67,7 +74,7 @@ public class PlayerDoorInventory : MonoBehaviour
     {
         foreach (DoorsController door in inventoryOfPlayer)
         {
-            if (door.GetDoorColor() == DoorColor.Blue && door.gameObject.active == false)
+            if (door.GetDoorColor() == DoorColor.Blue && door.gameObject.activeSelf == false)
             {
                 EventManager.Instance.OnTakeDoor(door.GetDoorColor());
                 return door;
