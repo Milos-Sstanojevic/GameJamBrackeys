@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Overlays;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -22,6 +23,11 @@ public class PlayerDoorHandler : MonoBehaviour
     private SpriteRenderer dummyDoorSpriteRenderer;
     private Collider2D dummyDoorCollider;
     private Rotation rotation;
+
+    Vector3 mouseWorldPosition;
+    Vector3 doorPosition;
+
+    private DoorsController currentlyTouchingDoor;
     void Start()
     {
         EventManager.Instance.SubscribeToSelectedDoor(OnSelectedDoor);
@@ -29,10 +35,19 @@ public class PlayerDoorHandler : MonoBehaviour
     }
     void Update()
     {
-        if (selectedDoor == null) return;
+        mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3 doorPosition = this.transform.position + Vector3.ClampMagnitude(mouseWorldPosition - this.transform.position, maxReach);
+        if (selectedDoor != null)
+        {
+            HandleAddingDoor();
+        }
+        HandleCollectingDoor();
+        HandleTeleporting();
+    }
+
+    private void HandleAddingDoor()
+    {
+        doorPosition = this.transform.position + Vector3.ClampMagnitude(mouseWorldPosition - this.transform.position, maxReach);
 
         if (selectedDoor != null && dummyDoor != null)
         {
@@ -60,7 +75,6 @@ public class PlayerDoorHandler : MonoBehaviour
                 {
                     rotation = Rotation.horizontal;
                     dummyDoor.transform.rotation = Quaternion.Euler(0, 0, 0);
-
                 }
             }
 
@@ -123,5 +137,31 @@ public class PlayerDoorHandler : MonoBehaviour
             EventManager.Instance.OnPlaceDoorVertically(door, position);
         }
         PlayerDoorInventory.Instance.TakeDoorFromInventory(door);
+    }
+
+    private void HandleCollectingDoor()
+    {
+        if (Input.GetKeyDown(KeyCode.Q) && currentlyTouchingDoor != null && !currentlyTouchingDoor.IsDoorPremadeInScene())
+        {
+            EventManager.Instance.OnCollectDoor(currentlyTouchingDoor);
+        }
+    }
+
+    private void HandleTeleporting()
+    {
+        if (Input.GetKeyDown(KeyCode.T) && currentlyTouchingDoor != null)
+        {
+            EventManager.Instance.OnTeleportPlayer(currentlyTouchingDoor, gameObject);
+        }
+    }
+
+    public void OnDoorCollisionDetected(DoorsController door)
+    {
+        currentlyTouchingDoor = door;
+    }
+
+    public void OnDoorCollisionEnd()
+    {
+        currentlyTouchingDoor = null;
     }
 }

@@ -24,7 +24,6 @@ public class PlayerController : MonoBehaviour
     private Vector3 leftFeet;
     private Vector3 rightFeet;
     private Rigidbody2D rb;
-    private DoorsController currentTouchingDoor;
 
     private void Awake()
     {
@@ -42,10 +41,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        //PlaceDoor();
-        CollectDoor();
-        TeleportPlayer();
-
         if (Input.GetKeyDown(KeyCode.Space))
         {
             jumpPressed = true;
@@ -127,33 +122,6 @@ public class PlayerController : MonoBehaviour
     //        }
     //    }
     //}
-
-    private void CollectDoor()
-    {
-        if (Input.GetKeyDown(KeyCode.Q) && currentTouchingDoor != null && !currentTouchingDoor.IsDoorPremadeInScene())
-        {
-            EventManager.Instance.OnCollectDoor(currentTouchingDoor);
-        }
-    }
-
-    private void TeleportPlayer()
-    {
-        if (Input.GetKeyDown(KeyCode.T) && currentTouchingDoor != null)
-        {
-            EventManager.Instance.OnTeleportPlayer(currentTouchingDoor, this);
-        }
-    }
-
-    public void CanCollectDoor(DoorsController door)
-    {
-        currentTouchingDoor = door;
-    }
-
-    public void CannotCollectDoor()
-    {
-        currentTouchingDoor = null;
-    }
-
     private void OnDrawGizmos()
     {
         Gizmos.DrawSphere(leftFeet, .1f);

@@ -49,13 +49,13 @@ public class MovingPlatform : MonoBehaviour
     private void SwitchDirection()
     {
         currentTarget = currentTarget == 1 ? 2 : 1;
+        // Mrdnem ga malo u novi smer jer se zaglavljuje u druge kolajdere
         var targetPosition = currentTarget == 1 ? target1 : target2;
         var diff = targetPosition - transform.position;
         transform.Translate(diff.normalized * getAwayDistance);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collision");
         if (collision.gameObject.CompareTag("Player"))
         {
             collision.gameObject.transform.SetParent(transform);

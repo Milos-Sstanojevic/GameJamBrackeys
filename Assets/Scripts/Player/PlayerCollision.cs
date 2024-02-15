@@ -6,21 +6,19 @@ using UnityEngine.Events;
 
 public class PlayerCollision : MonoBehaviour
 {
-    [SerializeField] string deadlyTag;
-    [SerializeField] UnityEvent playerDied;
-    private PlayerController playerController;
-    private DoorsController currentllyTouchedDoor;
+    private PlayerDoorHandler playerController;
+    private DoorsController currentlyTouchedDoor;
 
     private void Awake()
     {
-        playerController = GetComponent<PlayerController>();
+        playerController = GetComponent<PlayerDoorHandler>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag(deadlyTag))
+        if (collision.gameObject.CompareTag("Deadly"))
         {
-            playerDied.Invoke();
+            EventManager.Instance.OnPlayerDied();
         }
     }
 
@@ -30,8 +28,8 @@ public class PlayerCollision : MonoBehaviour
 
         if (door != null)
         {
-            playerController.CanCollectDoor(door);
-            currentllyTouchedDoor = door;
+            playerController.OnDoorCollisionDetected(door);
+            currentlyTouchedDoor = door;
         }
     }
 
@@ -39,10 +37,10 @@ public class PlayerCollision : MonoBehaviour
     {
         DoorsController door = other.gameObject.GetComponent<DoorsController>();
 
-        if (door != null && door == currentllyTouchedDoor)
+        if (door != null && door == currentlyTouchedDoor)
         {
-            playerController.CannotCollectDoor();
-            currentllyTouchedDoor = null;
+            playerController.OnDoorCollisionEnd();
+            currentlyTouchedDoor = null;
         }
     }
 }

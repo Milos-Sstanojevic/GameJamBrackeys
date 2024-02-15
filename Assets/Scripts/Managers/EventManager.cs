@@ -8,11 +8,12 @@ public class EventManager : MonoBehaviour
     private event Action<DoorsController, Vector3> placeDoorHorizontallyAction;
     private event Action<DoorsController, Vector3> placeDoorVerticallyAction;
     private event Action<DoorsController> collectDoorAction;
-    private event Action<DoorsController, PlayerController> teleportPlayerAction;
+    private event Action<DoorsController, GameObject> teleportPlayerAction;
     private event Action<DoorColor> createDoorAction;
     private event Action<DoorColor> takeDoorFromInventoryAction;
     private event Action<DoorsController> selectedDoor;
     private event Action deselectedDoor;
+    private event Action playerDied;
 
     private void Awake()
     {
@@ -20,6 +21,10 @@ public class EventManager : MonoBehaviour
             Instance = this;
         else
             Destroy(gameObject);
+    }
+    public void SubscribeToPlayerDied(Action action)
+    {
+        playerDied += action;
     }
     public void SubscribeToDeselectedDoor(Action action)
     {
@@ -39,7 +44,7 @@ public class EventManager : MonoBehaviour
         createDoorAction += action;
     }
 
-    public void SubscribeToTeleportPlayer(Action<DoorsController, PlayerController> action)
+    public void SubscribeToTeleportPlayer(Action<DoorsController, GameObject> action)
     {
         teleportPlayerAction += action;
     }
@@ -57,6 +62,10 @@ public class EventManager : MonoBehaviour
     public void SubscribeToPlaceDoorVerticallyAction(Action<DoorsController, Vector3> action)
     {
         placeDoorVerticallyAction += action;
+    }
+    public void UnsubscribeToPlayerDied(Action action)
+    {
+        deselectedDoor -= action;
     }
     public void UnsubscribeToDeselectedDoor(Action action)
     {
@@ -76,7 +85,7 @@ public class EventManager : MonoBehaviour
         placeDoorVerticallyAction -= action;
     }
 
-    public void UnsubscribeToTeleportPlayer(Action<DoorsController, PlayerController> action)
+    public void UnsubscribeToTeleportPlayer(Action<DoorsController, GameObject> action)
     {
         teleportPlayerAction -= action;
     }
@@ -95,7 +104,10 @@ public class EventManager : MonoBehaviour
     {
         collectDoorAction -= action;
     }
-
+    public void OnPlayerDied()
+    {
+        playerDied?.Invoke();
+    }
     public void OnDeselectedDoor()
     {
         deselectedDoor?.Invoke();
@@ -119,7 +131,7 @@ public class EventManager : MonoBehaviour
         collectDoorAction?.Invoke(door);
     }
 
-    public void OnTeleportPlayer(DoorsController door, PlayerController player)
+    public void OnTeleportPlayer(DoorsController door, GameObject player)
     {
         teleportPlayerAction?.Invoke(door, player);
     }

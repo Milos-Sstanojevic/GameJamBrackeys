@@ -40,7 +40,7 @@ public class DoorsController : MonoBehaviour
         }
     }
 
-    private void TeleportPlayer(DoorsController door, PlayerController player)
+    private void TeleportPlayer(DoorsController door, GameObject player)
     {
         if (door == this)
         {
