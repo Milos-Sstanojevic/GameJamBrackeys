@@ -119,5 +119,6 @@ public class PlayerDoorHandler : MonoBehaviour
         {
             EventManager.Instance.OnPlaceDoorVertically(door, position);
         }
+        PlayerDoorInventory.Instance.TakeDoorFromInventory(door);
     }
 }
