@@ -91,6 +91,11 @@ public class EventManager : MonoBehaviour
         takeDoorFromInventoryAction -= action;
     }
 
+    public void UnsubscribeToCollectDoorAction(Action<DoorsController> action)
+    {
+        collectDoorAction -= action;
+    }
+
     public void OnDeselectedDoor()
     {
         deselectedDoor?.Invoke();
