@@ -35,6 +35,7 @@ public class DoorsController : MonoBehaviour
         if (door == this)
         {
             door.gameObject.SetActive(false);
+            PlayerDoorInventory.Instance.AddDoorToPlayerInventory(door);
         }
     }
 
