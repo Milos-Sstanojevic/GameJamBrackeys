@@ -416,7 +416,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxReach: 10
   dummyDoorOkayOpacity: 0.5
-  dummyDoorInvalidOpacity: 0.1
+  dummyDoorInvalidOpacity: 0.2
   invalidColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &110610258
 MonoBehaviour:
@@ -716,12 +716,28 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3805064730808420784, guid: c605fc65cda450a4da86cfc849970c43, type: 3}
+      propertyPath: target1.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3805064730808420784, guid: c605fc65cda450a4da86cfc849970c43, type: 3}
+      propertyPath: target1.y
+      value: -6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3805064730808420784, guid: c605fc65cda450a4da86cfc849970c43, type: 3}
+      propertyPath: target2.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3805064730808420784, guid: c605fc65cda450a4da86cfc849970c43, type: 3}
+      propertyPath: target2.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3805064730808420784, guid: c605fc65cda450a4da86cfc849970c43, type: 3}
       propertyPath: timeOffset
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3805064730808420784, guid: c605fc65cda450a4da86cfc849970c43, type: 3}
       propertyPath: movingSpeed
-      value: 1.5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6120991544025054723, guid: c605fc65cda450a4da86cfc849970c43, type: 3}
       propertyPath: m_Name
@@ -1330,6 +1346,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6995582936481789866, guid: 4145d59256534354d961cc5b845b82f1, type: 3}
+      propertyPath: FeetVerticalOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6995582936481789866, guid: 4145d59256534354d961cc5b845b82f1, type: 3}
+      propertyPath: FeetHorizontalSpread
+      value: 0.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1795,12 +1819,28 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3805064730808420784, guid: c605fc65cda450a4da86cfc849970c43, type: 3}
+      propertyPath: target1.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3805064730808420784, guid: c605fc65cda450a4da86cfc849970c43, type: 3}
+      propertyPath: target1.y
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3805064730808420784, guid: c605fc65cda450a4da86cfc849970c43, type: 3}
+      propertyPath: target2.x
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 3805064730808420784, guid: c605fc65cda450a4da86cfc849970c43, type: 3}
+      propertyPath: target2.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3805064730808420784, guid: c605fc65cda450a4da86cfc849970c43, type: 3}
       propertyPath: timeOffset
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3805064730808420784, guid: c605fc65cda450a4da86cfc849970c43, type: 3}
       propertyPath: movingSpeed
-      value: 1.5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6120991544025054723, guid: c605fc65cda450a4da86cfc849970c43, type: 3}
       propertyPath: m_Name
