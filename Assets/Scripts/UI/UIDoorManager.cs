@@ -29,20 +29,39 @@ public class UIDoorManager : MonoBehaviour
         {
             if(d.GetDoorColor() == door.GetDoorColor())
             {
-                instantiatedDoors.Add(Instantiate(d,new Vector3(30,-30,0),Quaternion.identity));
-                d.transform.SetParent(canvas.transform);
+                UIDoorInvertoryController doorsUI = Instantiate(d);
+                instantiatedDoors.Add(doorsUI);
+                doorsUI.transform.SetParent(canvas.transform);
+                SetPosition();
             }
+        }
+    }
+
+    private void SetPosition()
+    {
+        int i = 0;
+        foreach(UIDoorInvertoryController door in instantiatedDoors)
+        {
+            door.transform.position = new Vector3(-32+i*4,13,0);
+            i++;
         }
     }
 
     private void UITake(DoorColor doorColor)
     {
+        UIDoorInvertoryController doorDestroy = null;
         foreach(UIDoorInvertoryController d in instantiatedDoors)
         {
             if(d.GetDoorColor() == doorColor)
             {
-                Destroy(d);
+                doorDestroy = d;
             }
+        }
+        if(doorDestroy!=null)
+        {
+            instantiatedDoors.Remove(doorDestroy);
+            Destroy(doorDestroy.gameObject);
+            SetPosition();
         }
     }
 
