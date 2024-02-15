@@ -19,6 +19,7 @@ public class DoorsController : MonoBehaviour
         {
             door.transform.position = position;
             door.transform.eulerAngles = new Vector3(0, 0, 0);
+            EventManager.Instance.OnTakeDoor(door.GetDoorColor());
         }
     }
 
@@ -28,6 +29,7 @@ public class DoorsController : MonoBehaviour
         {
             door.transform.position = position;
             door.transform.eulerAngles = new Vector3(0, 0, 90);
+            EventManager.Instance.OnTakeDoor(door.GetDoorColor());
         }
     }
 

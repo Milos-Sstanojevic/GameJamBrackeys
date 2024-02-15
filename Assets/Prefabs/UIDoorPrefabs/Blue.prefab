@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 997643101421528903}
   - component: {fileID: 7051436603703717124}
   - component: {fileID: 5790979689179060043}
+  - component: {fileID: 2462650755645266474}
   m_Layer: 5
   m_Name: Blue
   m_TagString: Untagged
@@ -35,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 150, y: -30}
-  m_SizeDelta: {x: 45, y: 45}
+  m_SizeDelta: {x: 3, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7051436603703717124
 CanvasRenderer:
@@ -75,3 +76,17 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2462650755645266474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279872033738189342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0f53af18c6a3284b8cbff499c898309, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorColor: 2
+  slider: {fileID: 0}

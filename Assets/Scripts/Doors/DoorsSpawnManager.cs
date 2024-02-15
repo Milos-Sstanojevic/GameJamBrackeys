@@ -68,11 +68,23 @@ public class DoorsSpawnManager : MonoBehaviour
     public void CreateDoor(DoorColor color)
     {
         if (color == DoorColor.Blue)
-            PlayerDoorInventory.Instance.AddDoorToPlayerInventory(Instantiate(blueDoorsPrefab));
+            {
+                DoorsController door=Instantiate(blueDoorsPrefab);
+                PlayerDoorInventory.Instance.AddDoorToPlayerInventory(door);
+                EventManager.Instance.OnCollectDoor(door);
+            }
         if (color == DoorColor.Green)
-            PlayerDoorInventory.Instance.AddDoorToPlayerInventory(Instantiate(greenDoorPrefab));
+            {
+                DoorsController door = Instantiate(greenDoorPrefab);
+                PlayerDoorInventory.Instance.AddDoorToPlayerInventory(door);
+                EventManager.Instance.OnCollectDoor(door);
+            }
         if (color == DoorColor.Red)
-            PlayerDoorInventory.Instance.AddDoorToPlayerInventory(Instantiate(redDoorsPrefab));
+            {
+                DoorsController door = Instantiate(redDoorsPrefab);
+                PlayerDoorInventory.Instance.AddDoorToPlayerInventory(door);
+                EventManager.Instance.OnCollectDoor(door);
+            }
     }
     // TODO: Napravi ovo bolje
     public GameObject CreateDummyDoor(DoorColor color)
