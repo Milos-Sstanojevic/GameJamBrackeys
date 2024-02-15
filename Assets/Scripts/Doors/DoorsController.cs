@@ -18,6 +18,7 @@ public class DoorsController : MonoBehaviour
         if (door == this)
         {
             door.transform.position = position;
+            door.transform.eulerAngles = new Vector3(0, 0, 0);
         }
     }
 

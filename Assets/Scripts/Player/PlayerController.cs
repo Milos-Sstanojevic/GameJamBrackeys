@@ -95,42 +95,42 @@ public class PlayerController : MonoBehaviour
         transform.Translate(MovementSpeed * Time.deltaTime * Input.GetAxisRaw("Horizontal") * Vector3.right);
     }
 
-    private void PlaceDoor()
-    {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            DoorsController door = PlayerDoorInventory.Instance.GetGreenDoors();
-            if (door != null)
-            {
-                door.gameObject.SetActive(true);
-                EventManager.Instance.OnPlaceDoorHorizontally(door, new Vector3(transform.position.x + 2, transform.position.y, transform.position.z));
-            }
-        }
+    //private void PlaceDoor()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.G))
+    //    {
+    //        DoorsController door = PlayerDoorInventory.Instance.GetGreenDoors();
+    //        if (door != null)
+    //        {
+    //            door.gameObject.SetActive(true);
+    //            EventManager.Instance.OnPlaceDoorHorizontally(door, new Vector3(transform.position.x + 2, transform.position.y, transform.position.z));
+    //        }
+    //    }
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            DoorsController door = PlayerDoorInventory.Instance.GetRedDoors();
-            if (door != null)
-            {
-                door.gameObject.SetActive(true);
-                EventManager.Instance.OnPlaceDoorHorizontally(door, new Vector3(transform.position.x + 2, transform.position.y, transform.position.z));
-            }
-        }
+    //    if (Input.GetKeyDown(KeyCode.R))
+    //    {
+    //        DoorsController door = PlayerDoorInventory.Instance.GetRedDoors();
+    //        if (door != null)
+    //        {
+    //            door.gameObject.SetActive(true);
+    //            EventManager.Instance.OnPlaceDoorHorizontally(door, new Vector3(transform.position.x + 2, transform.position.y, transform.position.z));
+    //        }
+    //    }
 
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            DoorsController door = PlayerDoorInventory.Instance.GetBlueDoors();
-            if (door != null)
-            {
-                door.gameObject.SetActive(true);
-                EventManager.Instance.OnPlaceDoorHorizontally(door, new Vector3(transform.position.x + 2, transform.position.y, transform.position.z));
-            }
-        }
-    }
+    //    if (Input.GetKeyDown(KeyCode.B))
+    //    {
+    //        DoorsController door = PlayerDoorInventory.Instance.GetBlueDoors();
+    //        if (door != null)
+    //        {
+    //            door.gameObject.SetActive(true);
+    //            EventManager.Instance.OnPlaceDoorHorizontally(door, new Vector3(transform.position.x + 2, transform.position.y, transform.position.z));
+    //        }
+    //    }
+    //}
 
     private void CollectDoor()
     {
-        if (Input.GetKeyDown(KeyCode.K) && currentTouchingDoor != null && !currentTouchingDoor.IsDoorPremadeInScene())
+        if (Input.GetKeyDown(KeyCode.Q) && currentTouchingDoor != null && !currentTouchingDoor.IsDoorPremadeInScene())
         {
             EventManager.Instance.OnCollectDoor(currentTouchingDoor);
         }

@@ -19,10 +19,12 @@ public class TestInv : MonoBehaviour
         if (num == -1) return;
 
 
+        string inv = "";
         foreach (var item in PlayerDoorInventory.Instance.GetDoorsInPlayerInventory())
         {
-            Debug.Log(item);
+            inv += item.GetDoorColor() + " ";
         }
+        Debug.Log("Inventory: " + inv);
 
         var door = PlayerDoorInventory.Instance[num];
         if (door != null)

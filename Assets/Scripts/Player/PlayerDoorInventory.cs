@@ -21,6 +21,7 @@ public class PlayerDoorInventory : MonoBehaviour
         inventoryOfPlayer.Add(door);
     }
 
+    // TODO: moze u jednu liniju samo
     public DoorsController TakeDoorFromInventory(DoorsController door)
     {
         foreach (DoorsController d in inventoryOfPlayer)
@@ -42,47 +43,47 @@ public class PlayerDoorInventory : MonoBehaviour
         }
     }
 
-    public DoorsController GetRedDoors()
-    {
-        foreach (DoorsController door in inventoryOfPlayer)
-        {
-            if (door.GetDoorColor() == DoorColor.Red && door.gameObject.activeSelf == false)
-            {
-                EventManager.Instance.OnTakeDoor(door.GetDoorColor());
-                return door;
-            }
-        }
+    //public DoorsController GetRedDoors()
+    //{
+    //    foreach (DoorsController door in inventoryOfPlayer)
+    //    {
+    //        if (door.GetDoorColor() == DoorColor.Red && door.gameObject.activeSelf == false)
+    //        {
+    //            EventManager.Instance.OnTakeDoor(door.GetDoorColor());
+    //            return door;
+    //        }
+    //    }
 
-        return null;
-    }
+    //    return null;
+    //}
 
-    public DoorsController GetGreenDoors()
-    {
-        foreach (DoorsController door in inventoryOfPlayer)
-        {
-            if (door.GetDoorColor() == DoorColor.Green && door.gameObject.activeSelf == false)
-            {
-                EventManager.Instance.OnTakeDoor(door.GetDoorColor());
-                return door;
-            }
-        }
+    //public DoorsController GetGreenDoors()
+    //{
+    //    foreach (DoorsController door in inventoryOfPlayer)
+    //    {
+    //        if (door.GetDoorColor() == DoorColor.Green && door.gameObject.activeSelf == false)
+    //        {
+    //            EventManager.Instance.OnTakeDoor(door.GetDoorColor());
+    //            return door;
+    //        }
+    //    }
 
-        return null;
-    }
+    //    return null;
+    //}
 
-    public DoorsController GetBlueDoors()
-    {
-        foreach (DoorsController door in inventoryOfPlayer)
-        {
-            if (door.GetDoorColor() == DoorColor.Blue && door.gameObject.activeSelf == false)
-            {
-                EventManager.Instance.OnTakeDoor(door.GetDoorColor());
-                return door;
-            }
-        }
+    //public DoorsController GetBlueDoors()
+    //{
+    //    foreach (DoorsController door in inventoryOfPlayer)
+    //    {
+    //        if (door.GetDoorColor() == DoorColor.Blue && door.gameObject.activeSelf == false)
+    //        {
+    //            EventManager.Instance.OnTakeDoor(door.GetDoorColor());
+    //            return door;
+    //        }
+    //    }
 
-        return null;
-    }
+    //    return null;
+    //}
 
     public List<DoorsController> GetDoorsInPlayerInventory() => inventoryOfPlayer;
 }

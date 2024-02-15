@@ -64,14 +64,15 @@ public class PlayerDoorHandler : MonoBehaviour
                 }
             }
 
+            dummyDoor.transform.position = doorPosition;
+
             if (canPlaceDoor && Input.GetMouseButtonUp(0))
             {
-                Destroy(dummyDoor);
                 PlaceDoor(selectedDoor, doorPosition, rotation);
+                Destroy(dummyDoor);
                 selectedDoor = null;
+                dummyDoor = null;
             }
-
-            dummyDoor.transform.position = doorPosition;
         }
     }
     public void OnSelectedDoor(DoorsController door)
@@ -90,7 +91,7 @@ public class PlayerDoorHandler : MonoBehaviour
 
         selectedDoor = door;
 
-        dummyDoor = DoorsSpawnManager.Instance.CreateDummyDoor(DoorColor.Blue);
+        dummyDoor = DoorsSpawnManager.Instance.CreateDummyDoor(door.GetDoorColor());
         dummyDoor.SetActive(true);
         dummyDoor.tag = "Untagged";
 
