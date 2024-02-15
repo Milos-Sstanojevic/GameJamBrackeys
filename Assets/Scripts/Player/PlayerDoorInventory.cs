@@ -20,22 +20,20 @@ public class PlayerDoorInventory : MonoBehaviour
     {
         inventoryOfPlayer.Add(door);
     }
-
-    // TODO: moze u jednu liniju samo
     public DoorsController TakeDoorFromInventory(DoorsController door)
     {
         return inventoryOfPlayer.Remove(door) ? door : null;
 
-        foreach (DoorsController d in inventoryOfPlayer)
-        {
-            if (d == door)
-            {
-                inventoryOfPlayer.Remove(d);
-                return d;
-            }
-        }
+        //foreach (DoorsController d in inventoryOfPlayer)
+        //{
+        //    if (d == door)
+        //    {
+        //        inventoryOfPlayer.Remove(d);
+        //        return d;
+        //    }
+        //}
 
-        return null;
+        //return null;
     }
     public DoorsController this[int index]
     {

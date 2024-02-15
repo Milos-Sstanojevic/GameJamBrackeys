@@ -77,10 +77,12 @@ public class PlayerDoorHandler : MonoBehaviour
     }
     public void OnSelectedDoor(DoorsController door)
     {
-        //var door = PlayerDoorInventory.Instance.GetBlueDoors();
-        if (door == null)
+        if (door == null) throw new Exception("Poslat mi je null umesto vrata");
+
+        if (selectedDoor == door)
         {
-            throw new Exception("Poslat mi je null umesto vrata");
+            OnDeselectedDoor();
+            return;
         }
 
         if (selectedDoor != null)
