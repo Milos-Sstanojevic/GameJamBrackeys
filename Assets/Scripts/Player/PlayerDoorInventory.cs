@@ -24,6 +24,8 @@ public class PlayerDoorInventory : MonoBehaviour
     // TODO: moze u jednu liniju samo
     public DoorsController TakeDoorFromInventory(DoorsController door)
     {
+        return inventoryOfPlayer.Remove(door) ? door : null;
+
         foreach (DoorsController d in inventoryOfPlayer)
         {
             if (d == door)
