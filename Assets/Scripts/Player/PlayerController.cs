@@ -15,19 +15,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float JumpStrength;
     [SerializeField] float CoyoteTime;
     [SerializeField] float JumpBufferTime;
-    [SerializeField] float FeetSpread;
-    [SerializeField] Vector3 FeetVerticalOffset;
+
     private int leftJumps;
     private bool jumpPressed;
     private float lastTimeGrounded;
     private float lastTimeJumpPressed;
-    private Vector3 leftFeet;
-    private Vector3 rightFeet;
     private Rigidbody2D rb;
+    private PlayerCollision collisionComponent;
+
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        collisionComponent = GetComponent<PlayerCollision>();
     }
 
     void Start()
@@ -47,17 +47,13 @@ public class PlayerController : MonoBehaviour
             lastTimeJumpPressed = Time.time;
         }
 
+        var isGrounded = collisionComponent.IsGrounded;
+
         //}
         //private void FixedUpdate()
         //{
 
-        leftFeet = transform.position + FeetVerticalOffset + Vector3.left * FeetSpread;
-        rightFeet = transform.position + FeetVerticalOffset + Vector3.right * FeetSpread;
 
-        var hit1 = Physics2D.RaycastAll(leftFeet, Vector3.down, .1f).Any(hit => hit.collider.CompareTag("Platform"));
-        var hit2 = Physics2D.RaycastAll(rightFeet, Vector3.down, .1f).Any(hit => hit.collider.CompareTag("Platform"));
-
-        bool isGrounded = hit1 || hit2;
         bool coyoteTimeFulfilled = !isGrounded && (Time.time - lastTimeGrounded) < CoyoteTime;
         bool jumpBufferTimeFulfilled = (Time.time - lastTimeJumpPressed) < JumpBufferTime;
 
@@ -122,9 +118,4 @@ public class PlayerController : MonoBehaviour
     //        }
     //    }
     //}
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawSphere(leftFeet, .1f);
-        Gizmos.DrawSphere(rightFeet, .1f);
-    }
 }
