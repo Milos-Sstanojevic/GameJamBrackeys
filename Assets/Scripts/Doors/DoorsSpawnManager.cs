@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -74,21 +75,9 @@ public class DoorsSpawnManager : MonoBehaviour
     }
     public GameObject CreateDummyDoor(DoorColor color)
     {
-        if (color == DoorColor.Green)
-        {
-            return Instantiate(greenDoorPrefab).gameObject;
-        }
-        else if (color == DoorColor.Red)
-        {
-            return Instantiate(redDoorsPrefab).gameObject;
-        }
-        else if (color == DoorColor.Blue)
-        {
-            return Instantiate(blueDoorsPrefab).gameObject;
-        }
-        else
-        {
-            return null;
-        }
+        return Instantiate(blueDoorsPrefab).gameObject;
+
+        // TODO: 
+        throw new NotImplementedException();
     }
 }

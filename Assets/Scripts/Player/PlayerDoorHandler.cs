@@ -1,21 +1,30 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerDoorHandler : MonoBehaviour
 {
     [SerializeField] float maxReach;
+    [SerializeField] [Range(0f, 1f)] float dummyDoorOkayOpacity;
+    [SerializeField][Range(0f, 1f)] float dummyDoorInvalidOpacity;
+    [SerializeField] Color invalidColor;
     private enum Rotation
     {
         horizontal,
         vertical
     }
     private DoorsController selectedDoor;
+    private Color selectedDoorStartingColor;
     private GameObject dummyDoor;
+    private SpriteRenderer dummyDoorSpriteRenderer;
+    private Collider2D dummyDoorCollider;
     private Rotation rotation;
     void Start()
     {
-        
+
     }
     void Update()
     {
@@ -23,26 +32,22 @@ public class PlayerDoorHandler : MonoBehaviour
         Vector3 doorPosition = this.transform.position + Vector3.ClampMagnitude(mouseWorldPosition - this.transform.position, maxReach);
         if (Input.GetKeyDown(KeyCode.B))
         {
-            if (selectedDoor == null)
-            {
-                rotation = Rotation.horizontal;
-                var doorFromInventory = PlayerDoorInventory.Instance.GetBlueDoors();
-                if (doorFromInventory != null)
-                {
-                    selectedDoor = doorFromInventory;
-                    dummyDoor = DoorsSpawnManager.Instance.CreateDummyDoor(DoorColor.Blue).gameObject;
-                    dummyDoor.SetActive(true);
-                }
-            }
-            else
-            {
-                selectedDoor = null;
-                //PlayerDoorInventory.Instance.AddDoorToPlayerInventory(selectedDoor);
-                Destroy(dummyDoor);
-            }
         }
         if (selectedDoor != null && dummyDoor != null)
         {
+            var isOverlaping = dummyDoorCollider.OverlapCollider(new ContactFilter2D().NoFilter(), new Collider2D[1]) > 0;
+
+            var dir = doorPosition - this.transform.position;
+            var hits = Physics2D.RaycastAll(transform.position, dir.normalized, dir.magnitude);
+
+            var isObstructed = hits.Any(hit => hit.collider.CompareTag("Platform"));
+
+            var canPlaceDoor = !(isOverlaping || isObstructed);
+
+            var newColor = selectedDoorStartingColor;
+            newColor.a = canPlaceDoor ? dummyDoorOkayOpacity : dummyDoorInvalidOpacity;
+            dummyDoorSpriteRenderer.color = newColor;
+
             if (Input.GetKeyDown(KeyCode.R))
             {
                 if (rotation == Rotation.horizontal)
@@ -58,7 +63,7 @@ public class PlayerDoorHandler : MonoBehaviour
                 }
             }
 
-            if (Input.GetMouseButtonUp(0))
+            if (canPlaceDoor && Input.GetMouseButtonUp(0))
             {
                 Destroy(dummyDoor);
                 PlaceDoor(selectedDoor, doorPosition, rotation);
@@ -68,6 +73,40 @@ public class PlayerDoorHandler : MonoBehaviour
             dummyDoor.transform.position = doorPosition;
         }
     }
+    public void OnSelectedDoor(DoorsController door)
+    {
+        //var door = PlayerDoorInventory.Instance.GetBlueDoors();
+        if (door == null)
+        {
+            throw new Exception("Poslat mi je null umesto vrata");
+        }
+
+        if (selectedDoor != null)
+        {
+            selectedDoor = null;
+            Destroy(dummyDoor);
+        }
+
+        selectedDoor = door;
+
+        dummyDoor = DoorsSpawnManager.Instance.CreateDummyDoor(DoorColor.Blue);
+        dummyDoor.SetActive(true);
+        dummyDoor.tag = "Untagged";
+
+        dummyDoorSpriteRenderer = dummyDoor.GetComponent<SpriteRenderer>();
+        selectedDoorStartingColor = dummyDoorSpriteRenderer.color;
+
+        dummyDoorCollider = dummyDoor.GetComponent<Collider2D>();
+        dummyDoorCollider.isTrigger = true;
+
+        rotation = Rotation.horizontal;
+    }
+    public void OnDeselectedDoor()
+    {
+        selectedDoor = null;
+        Destroy(dummyDoor);
+    }
+
     private void PlaceDoor(DoorsController door, Vector3 position, Rotation rotation)
     {
         door.gameObject.SetActive(true);
