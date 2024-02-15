@@ -98,8 +98,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91259cad5e52d4b4395ccd0606149387, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeOffset: 0
   movingSpeed: 4
-  range: {x: 0, y: 0, z: 0}
+  target1: {x: 0, y: 0, z: 0}
+  target2: {x: 0, y: 0, z: 0}
+  minDiff: 0.1
+  getAwayDistance: 0.1
 --- !u!61 &8630574184332659574
 BoxCollider2D:
   m_ObjectHideFlags: 0
