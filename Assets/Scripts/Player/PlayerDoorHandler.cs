@@ -24,15 +24,16 @@ public class PlayerDoorHandler : MonoBehaviour
     private Rotation rotation;
     void Start()
     {
-
+        EventManager.Instance.SubscribeToSelectedDoor(OnSelectedDoor);
+        EventManager.Instance.SubscribeToDeselectedDoor(OnDeselectedDoor);
     }
     void Update()
     {
+        if (selectedDoor == null) return;
+
         Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 doorPosition = this.transform.position + Vector3.ClampMagnitude(mouseWorldPosition - this.transform.position, maxReach);
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-        }
+
         if (selectedDoor != null && dummyDoor != null)
         {
             var isOverlaping = dummyDoorCollider.OverlapCollider(new ContactFilter2D().NoFilter(), new Collider2D[1]) > 0;
