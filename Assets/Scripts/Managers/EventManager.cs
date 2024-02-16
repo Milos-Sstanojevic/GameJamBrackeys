@@ -14,6 +14,9 @@ public class EventManager : MonoBehaviour
     private event Action<DoorsController> selectedDoor;
     private event Action deselectedDoor;
     private event Action playerDied;
+    private event Action<int> leftJumpsChanged;
+    private event Action<int> healthChanged;
+    private event Action<int> keysCountChanged;
 
     private void Awake()
     {
@@ -21,6 +24,18 @@ public class EventManager : MonoBehaviour
             Instance = this;
         else
             Destroy(gameObject);
+    }
+    public void SubscribeToHealthChanged(Action<int> action)
+    {
+        healthChanged += action;
+    }
+    public void SubscribeToKeysCountChanged(Action<int> action)
+    {
+        keysCountChanged += action;
+    }
+    public void SubscribeToLeftJumpsChanged(Action<int> action)
+    {
+        leftJumpsChanged += action;
     }
     public void SubscribeToPlayerDied(Action action)
     {
@@ -63,9 +78,13 @@ public class EventManager : MonoBehaviour
     {
         placeDoorVerticallyAction += action;
     }
+    public void UnsubscribeToLeftJumpsChanged(Action<int> action)
+    {
+        leftJumpsChanged -= action;
+    }
     public void UnsubscribeToPlayerDied(Action action)
     {
-        deselectedDoor -= action;
+        playerDied -= action;
     }
     public void UnsubscribeToDeselectedDoor(Action action)
     {
@@ -103,6 +122,18 @@ public class EventManager : MonoBehaviour
     public void UnsubscribeToCollectDoorAction(Action<DoorsController> action)
     {
         collectDoorAction -= action;
+    }
+    public void OnKeysCountChanged(int count)
+    {
+        keysCountChanged?.Invoke(count);
+    }
+    public void OnHealthChanged(int health)
+    {
+        healthChanged?.Invoke(health);
+    }
+    public void OnLeftJumpsChanged(int leftJumps)
+    {
+        leftJumpsChanged?.Invoke(leftJumps);
     }
     public void OnPlayerDied()
     {
