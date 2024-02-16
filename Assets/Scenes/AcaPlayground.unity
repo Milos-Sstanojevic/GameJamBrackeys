@@ -1358,12 +1358,32 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5630037831383836757, guid: 4145d59256534354d961cc5b845b82f1, type: 3}
+      propertyPath: WallJumpEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6995582936481789866, guid: 4145d59256534354d961cc5b845b82f1, type: 3}
+      propertyPath: checkDepth
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6995582936481789866, guid: 4145d59256534354d961cc5b845b82f1, type: 3}
+      propertyPath: wallCheckSpread
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6995582936481789866, guid: 4145d59256534354d961cc5b845b82f1, type: 3}
       propertyPath: FeetVerticalOffset
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6995582936481789866, guid: 4145d59256534354d961cc5b845b82f1, type: 3}
+      propertyPath: feetVerticalOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6995582936481789866, guid: 4145d59256534354d961cc5b845b82f1, type: 3}
       propertyPath: FeetHorizontalSpread
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6995582936481789866, guid: 4145d59256534354d961cc5b845b82f1, type: 3}
+      propertyPath: feetHorizontalSpread
       value: 0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []

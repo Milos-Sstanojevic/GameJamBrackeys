@@ -15,11 +15,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float JumpStrength;
     [SerializeField] float CoyoteTime;
     [SerializeField] float JumpBufferTime;
+    [SerializeField] bool WallJumpEnabled;
 
     private int leftJumps;
     private bool jumpPressed;
     private float lastTimeGrounded;
     private float lastTimeJumpPressed;
+
+    private GameObject lastTouchedWall;
+
+
     private Rigidbody2D rb;
     private PlayerCollision collisionComponent;
 
@@ -28,6 +33,8 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         collisionComponent = GetComponent<PlayerCollision>();
+
+        lastTouchedWall = null;
     }
 
     void Start()
@@ -48,20 +55,52 @@ public class PlayerController : MonoBehaviour
         }
 
         var isGrounded = collisionComponent.IsGrounded;
+        var isTouchingWall = collisionComponent.IsTouchingWall;
 
         //}
         //private void FixedUpdate()
         //{
 
+        var shouldGetWallReset = false;
+        if (isTouchingWall)
+        {
+            var currentlyTouchedWall = collisionComponent.LastTouchedWall;
+            var isTouchingDifferentWall = currentlyTouchedWall != lastTouchedWall;
+
+            var couldGetWallReset = isTouchingWall && isTouchingDifferentWall;
+            shouldGetWallReset = couldGetWallReset && WallJumpEnabled;
+
+            lastTouchedWall = currentlyTouchedWall;
+        }
+        if (shouldGetWallReset)
+            Debug.Log(shouldGetWallReset);
+
 
         bool coyoteTimeFulfilled = !isGrounded && (Time.time - lastTimeGrounded) < CoyoteTime;
         bool jumpBufferTimeFulfilled = (Time.time - lastTimeJumpPressed) < JumpBufferTime;
 
-        lastTimeGrounded = isGrounded ? Time.time : lastTimeGrounded;
+        //lastTimeGrounded = isGrounded ? Time.time : lastTimeGrounded;
 
-        if (isGrounded)
+        // TODO: izbegni magiju
+        /* Ovo radi magijom
+         * 
+         * shouldGetWallReset je true samo jedan jedini frame
+         * i to prvi put kad se detektuje da dodirujes zid
+         * Taj frejm ti dobijes maxJumps u leftJumps
+         * ali (da nije coyot time-a) oni bi ti se u sledeci frejm odma smanjili jer vise nije true
+         * tako da max skokoke bi dobio samo ako bas u taj frejm skoknes
+         * medjutim coyot time me ovde spasava 
+         * sve dok on ne istekne ne smanjuju mi se leftJumps
+         * 
+         */
+        if (isGrounded || shouldGetWallReset)
         {
             leftJumps = MaxJumps;
+            lastTimeGrounded = Time.time;
+            if (isGrounded)
+            {
+                lastTouchedWall = null;
+            }
         }
         else if (leftJumps == MaxJumps)
         {
