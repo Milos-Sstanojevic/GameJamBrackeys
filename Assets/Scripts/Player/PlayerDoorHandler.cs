@@ -9,9 +9,9 @@ using UnityEngine.UIElements;
 public class PlayerDoorHandler : MonoBehaviour
 {
     [SerializeField] float maxReach;
+    [SerializeField] GameObject reachIndicator;
     [SerializeField] [Range(0f, 1f)] float dummyDoorOkayOpacity;
-    [SerializeField][Range(0f, 1f)] float dummyDoorInvalidOpacity;
-    [SerializeField] Color invalidColor;
+    [SerializeField] [Range(0f, 1f)] float dummyDoorInvalidOpacity;
     private enum Rotation
     {
         horizontal,
@@ -44,10 +44,30 @@ public class PlayerDoorHandler : MonoBehaviour
         HandleCollectingDoor();
         HandleTeleporting();
     }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.DrawSphere(doorPosition, .1f);
+    //    Gizmos.DrawSphere(mouseWorldPosition, .1f);
 
+    //    Debug.Log("m: " + mouseWorldPosition + " tp: " + this.transform.position);
+
+
+    //    var unclamped = mouseWorldPosition - myPos;
+    //    var clamped = Vector3.ClampMagnitude(mouseWorldPosition - myPos, maxReach);
+    //    var my = unclamped.magnitude <= maxReach ? unclamped : unclamped.normalized * maxReach;
+
+    //    Debug.Log(unclamped.magnitude + " njihovo: " + clamped.magnitude + " moje: " + my.magnitude);
+
+    //    Gizmos.DrawLine(myPos, myPos + clamped);
+    //}
     private void HandleAddingDoor()
     {
-        doorPosition = this.transform.position + Vector3.ClampMagnitude(mouseWorldPosition - this.transform.position, maxReach);
+
+        var position = this.transform.position;
+        position.z = 0;
+
+        doorPosition = this.transform.position + Vector3.ClampMagnitude(mouseWorldPosition - position, maxReach);
+        //doorPosition = this.transform.position + mouseWorldPosition - this.transform.position;
 
         if (selectedDoor != null && dummyDoor != null)
         {
