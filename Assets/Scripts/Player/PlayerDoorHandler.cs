@@ -63,11 +63,15 @@ public class PlayerDoorHandler : MonoBehaviour
     private void HandleAddingDoor()
     {
 
+        if (reachIndicator.activeSelf == false)
+        {
+            reachIndicator.SetActive(true);
+        }
+
         var position = this.transform.position;
         position.z = 0;
 
         doorPosition = this.transform.position + Vector3.ClampMagnitude(mouseWorldPosition - position, maxReach);
-        //doorPosition = this.transform.position + mouseWorldPosition - this.transform.position;
 
         if (selectedDoor != null && dummyDoor != null)
         {
@@ -106,6 +110,7 @@ public class PlayerDoorHandler : MonoBehaviour
                 Destroy(dummyDoor);
                 selectedDoor = null;
                 dummyDoor = null;
+                reachIndicator.SetActive(false);
             }
         }
     }
@@ -123,6 +128,7 @@ public class PlayerDoorHandler : MonoBehaviour
         {
             selectedDoor = null;
             Destroy(dummyDoor);
+            reachIndicator.SetActive(false);
         }
 
         selectedDoor = door;
@@ -143,6 +149,7 @@ public class PlayerDoorHandler : MonoBehaviour
     {
         selectedDoor = null;
         Destroy(dummyDoor);
+        reachIndicator.SetActive(false);
     }
 
     private void PlaceDoor(DoorsController door, Vector3 position, Rotation rotation)

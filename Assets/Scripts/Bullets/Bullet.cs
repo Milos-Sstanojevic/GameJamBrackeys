@@ -24,6 +24,7 @@ public class Bullet : MonoBehaviour
         {
             var playerHealth = go.GetComponent<PlayerHealth>();
             playerHealth.TakeDamage(10);
+            BulletPool.Instance.ReleaseBullet(this);
         }
     }
 }
