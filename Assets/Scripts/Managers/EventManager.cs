@@ -14,6 +14,7 @@ public class EventManager : MonoBehaviour
     private event Action<DoorsController> selectedDoor;
     private event Action deselectedDoor;
     private event Action playerDied;
+    private event Action<PlatformsControlledByLevers> onChangeDirection;
 
     private void Awake()
     {
@@ -21,6 +22,11 @@ public class EventManager : MonoBehaviour
             Instance = this;
         else
             Destroy(gameObject);
+    }
+    
+    public void SubscribeToOnChangeDirection(Action<PlatformsControlledByLevers> action)
+    {
+        onChangeDirection += action;
     }
     public void SubscribeToPlayerDied(Action action)
     {
@@ -62,6 +68,11 @@ public class EventManager : MonoBehaviour
     public void SubscribeToPlaceDoorVerticallyAction(Action<DoorsController, Vector3> action)
     {
         placeDoorVerticallyAction += action;
+    }
+
+    public void UnsubscribeToOnChangeDirection(Action<PlatformsControlledByLevers> action)
+    {
+        onChangeDirection -= action;
     }
     public void UnsubscribeToPlayerDied(Action action)
     {
@@ -144,5 +155,10 @@ public class EventManager : MonoBehaviour
     public void OnTakeDoor(DoorColor color)
     {
         takeDoorFromInventoryAction?.Invoke(color);
+    }
+
+    public void OnChangeDirection(PlatformsControlledByLevers platform)
+    {
+        onChangeDirection?.Invoke(platform);
     }
 }

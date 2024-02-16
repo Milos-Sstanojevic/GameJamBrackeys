@@ -53,6 +53,7 @@ public class MovingPlatform : MonoBehaviour
         var targetPosition = currentTarget == 1 ? target1 : target2;
         var diff = targetPosition - transform.position;
         transform.Translate(diff.normalized * getAwayDistance);
+        
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
