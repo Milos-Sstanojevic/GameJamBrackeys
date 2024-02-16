@@ -14,7 +14,13 @@ public class EventManager : MonoBehaviour
     private event Action<DoorsController> selectedDoor;
     private event Action deselectedDoor;
     private event Action playerDied;
+<<<<<<< HEAD
     private event Action<PlatformsControlledByLevers> onChangeDirection;
+=======
+    private event Action<int> leftJumpsChanged;
+    private event Action<int> healthChanged;
+    private event Action<int> keysCountChanged;
+>>>>>>> e4182f6fa4908681f4e8363defcfef57463d1a12
 
     private void Awake()
     {
@@ -23,10 +29,24 @@ public class EventManager : MonoBehaviour
         else
             Destroy(gameObject);
     }
+<<<<<<< HEAD
     
     public void SubscribeToOnChangeDirection(Action<PlatformsControlledByLevers> action)
     {
         onChangeDirection += action;
+=======
+    public void SubscribeToHealthChanged(Action<int> action)
+    {
+        healthChanged += action;
+    }
+    public void SubscribeToKeysCountChanged(Action<int> action)
+    {
+        keysCountChanged += action;
+    }
+    public void SubscribeToLeftJumpsChanged(Action<int> action)
+    {
+        leftJumpsChanged += action;
+>>>>>>> e4182f6fa4908681f4e8363defcfef57463d1a12
     }
     public void SubscribeToPlayerDied(Action action)
     {
@@ -69,14 +89,20 @@ public class EventManager : MonoBehaviour
     {
         placeDoorVerticallyAction += action;
     }
+<<<<<<< HEAD
 
     public void UnsubscribeToOnChangeDirection(Action<PlatformsControlledByLevers> action)
     {
         onChangeDirection -= action;
+=======
+    public void UnsubscribeToLeftJumpsChanged(Action<int> action)
+    {
+        leftJumpsChanged -= action;
+>>>>>>> e4182f6fa4908681f4e8363defcfef57463d1a12
     }
     public void UnsubscribeToPlayerDied(Action action)
     {
-        deselectedDoor -= action;
+        playerDied -= action;
     }
     public void UnsubscribeToDeselectedDoor(Action action)
     {
@@ -114,6 +140,18 @@ public class EventManager : MonoBehaviour
     public void UnsubscribeToCollectDoorAction(Action<DoorsController> action)
     {
         collectDoorAction -= action;
+    }
+    public void OnKeysCountChanged(int count)
+    {
+        keysCountChanged?.Invoke(count);
+    }
+    public void OnHealthChanged(int health)
+    {
+        healthChanged?.Invoke(health);
+    }
+    public void OnLeftJumpsChanged(int leftJumps)
+    {
+        leftJumpsChanged?.Invoke(leftJumps);
     }
     public void OnPlayerDied()
     {

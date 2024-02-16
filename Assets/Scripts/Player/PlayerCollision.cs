@@ -8,8 +8,11 @@ using UnityEngine.Events;
 
 public class PlayerCollision : MonoBehaviour
 {
-    [SerializeField] float FeetVerticalOffset;
-    [SerializeField] float FeetHorizontalSpread;
+    [SerializeField] float checkDepth;
+    [SerializeField] float feetVerticalOffset;
+    [SerializeField] float feetHorizontalSpread;
+
+    [SerializeField] float wallCheckSpread;
 
     private PlayerDoorHandler playerController;
     private DoorsController currentlyTouchedDoor;
@@ -17,12 +20,25 @@ public class PlayerCollision : MonoBehaviour
     private Vector3 leftFeet;
     private Vector3 rightFeet;
 
+    private Vector3 leftWallCheckOrigin;
+    private Vector3 rightWallCheckOrigin;
+
     private RaycastHit2D[] results;
 
     private bool isGrounded;
     public bool IsGrounded
     {
         get { return isGrounded; }
+    }
+    private bool isTouchingWall;
+    public bool IsTouchingWall
+    {
+        get { return isTouchingWall; }
+    }
+    private GameObject lastTouchedWall;
+    public GameObject LastTouchedWall
+    {
+        get { return lastTouchedWall; }
     }
 
     private void Awake()
@@ -32,22 +48,45 @@ public class PlayerCollision : MonoBehaviour
     }
     public void Update()
     {
-        var feetLevel = transform.position + Vector3.down * FeetVerticalOffset;
+        var feetLevel = transform.position + Vector3.down * feetVerticalOffset;
 
-        leftFeet = feetLevel + Vector3.left * FeetHorizontalSpread;
-        rightFeet = feetLevel + Vector3.right * FeetHorizontalSpread;
+        leftFeet = feetLevel + Vector3.left * feetHorizontalSpread;
+        rightFeet = feetLevel + Vector3.right * feetHorizontalSpread;
 
-        int c1 = Physics2D.RaycastNonAlloc(leftFeet, Vector3.down, results, 0.1f);
-        bool hit1 = Any(results, c1);
-        int c2 = Physics2D.RaycastNonAlloc(rightFeet, Vector3.down, results, 0.1f);
-        bool hit2 = Any(results, c2);
+        bool hit1, hit2 = false;
+        int c1 = Physics2D.RaycastNonAlloc(leftFeet, Vector3.down, results, checkDepth);
+        hit1 = AnyIsPlatform(results, c1);
+        if (!hit1)
+        {
+            int c2 = Physics2D.RaycastNonAlloc(rightFeet, Vector3.down, results, checkDepth);
+            hit2 = AnyIsPlatform(results, c2);
+        }
 
-        //var hit1 = Physics2D.RaycastAll(leftFeet, Vector3.down, .1f).Any(hit => hit.collider.CompareTag("Platform"));
-        //var hit2 = Physics2D.RaycastAll(rightFeet, Vector3.down, .1f).Any(hit => hit.collider.CompareTag("Platform"));
+        //var hit1 = Physics2D.RaycastAll(leftFeet, Vector3.down, checkDepth).Any(hit => hit.collider.CompareTag("Platform"));
+        //var hit2 = Physics2D.RaycastAll(rightFeet, Vector3.down, checkDepth).Any(hit => hit.collider.CompareTag("Platform"));
 
         isGrounded = hit1 || hit2;
+
+        leftWallCheckOrigin = transform.position + Vector3.left * wallCheckSpread;
+        rightWallCheckOrigin = transform.position + Vector3.right * wallCheckSpread;
+
+        bool hit3, hit4 = false;
+        int c3 = Physics2D.RaycastNonAlloc(leftWallCheckOrigin, Vector3.left, results, checkDepth);
+        hit3 = AnyIsPlatform(results, c3);
+        if (!hit3)
+        {
+            int c4 = Physics2D.RaycastNonAlloc(rightWallCheckOrigin, Vector3.right, results, checkDepth);
+            hit4 = AnyIsPlatform(results, c4);
+        }
+
+        isTouchingWall = hit3 || hit4;
+        if (isTouchingWall)
+        {
+            lastTouchedWall = lastTrueTriggeringObject;
+        }
     }
-    private bool Any(RaycastHit2D[] hits, int count)
+    private GameObject lastTrueTriggeringObject;
+    private bool AnyIsPlatform(RaycastHit2D[] hits, int count)
     {
         for (int i = 0; i < count; i++)
         {
@@ -55,6 +94,7 @@ public class PlayerCollision : MonoBehaviour
 
             if (hits[i].collider.CompareTag("Platform"))
             {
+                lastTrueTriggeringObject = hits[i].collider.gameObject;
                 return true;
             }
         }
@@ -91,7 +131,10 @@ public class PlayerCollision : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
-        Gizmos.DrawSphere(leftFeet, .1f);
-        Gizmos.DrawSphere(rightFeet, .1f);
+        Gizmos.DrawLine(leftFeet, leftFeet + Vector3.down * checkDepth);
+        Gizmos.DrawLine(rightFeet, rightFeet + Vector3.down * checkDepth);
+
+        Gizmos.DrawLine(leftWallCheckOrigin, leftWallCheckOrigin + Vector3.left * checkDepth);
+        Gizmos.DrawLine(rightWallCheckOrigin, rightWallCheckOrigin + Vector3.right * checkDepth);
     }
 }

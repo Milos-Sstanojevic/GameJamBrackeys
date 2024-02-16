@@ -15,11 +15,28 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float JumpStrength;
     [SerializeField] float CoyoteTime;
     [SerializeField] float JumpBufferTime;
+    [SerializeField] bool WallJumpEnabled;
 
     private int leftJumps;
+    private int LeftJumps
+    {
+        set
+        {
+            if (leftJumps != value)
+            {
+                leftJumps = value;
+                EventManager.Instance.OnLeftJumpsChanged(leftJumps);
+            }
+        }
+        get { return leftJumps; }
+    }
     private bool jumpPressed;
-    private float lastTimeGrounded;
+    private float lastTimeJumpsReseted;
     private float lastTimeJumpPressed;
+
+    private GameObject lastWallUsedForReset;
+
+
     private Rigidbody2D rb;
     private PlayerCollision collisionComponent;
 
@@ -28,13 +45,15 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         collisionComponent = GetComponent<PlayerCollision>();
+
+        lastWallUsedForReset = null;
     }
 
     void Start()
     {
-        leftJumps = MaxJumps;
+        LeftJumps = MaxJumps;
         jumpPressed = false;
-        lastTimeGrounded = float.MinValue;
+        lastTimeJumpsReseted = float.MinValue;
         lastTimeJumpPressed = float.MinValue;
 
     }
@@ -48,74 +67,63 @@ public class PlayerController : MonoBehaviour
         }
 
         var isGrounded = collisionComponent.IsGrounded;
-
-        //}
-        //private void FixedUpdate()
-        //{
+        var isTouchingWall = collisionComponent.IsTouchingWall;
 
 
-        bool coyoteTimeFulfilled = !isGrounded && (Time.time - lastTimeGrounded) < CoyoteTime;
+        bool coyoteTimeFulfilled = (Time.time - lastTimeJumpsReseted) < CoyoteTime;
         bool jumpBufferTimeFulfilled = (Time.time - lastTimeJumpPressed) < JumpBufferTime;
-
-        lastTimeGrounded = isGrounded ? Time.time : lastTimeGrounded;
 
         if (isGrounded)
         {
-            leftJumps = MaxJumps;
+            lastTimeJumpsReseted = Time.time;
+            lastWallUsedForReset = null;
         }
-        else if (leftJumps == MaxJumps)
+
+        if (isTouchingWall)
         {
-            if (!coyoteTimeFulfilled)
+            //if (lastWallUsedForReset != collisionComponent.LastTouchedWall)
             {
-                leftJumps = MaxJumps - 1;
+                lastTimeJumpsReseted = Time.time;
+                lastWallUsedForReset = collisionComponent.LastTouchedWall;
             }
         }
 
-        if (leftJumps > 0 && jumpPressed)
+        if (coyoteTimeFulfilled)
         {
-            rb.velocity = Vector3.zero;
-            rb.AddForce(JumpStrength * Vector3.up, ForceMode2D.Impulse);
-            leftJumps--;
-            jumpPressed = false;
+            LeftJumps = MaxJumps;
         }
-        else if (!jumpBufferTimeFulfilled)
+        else
+        {
+            if (LeftJumps == MaxJumps)
+            {
+                LeftJumps = MaxJumps - 1;
+            }
+        }
+
+        if (jumpPressed)
+        {
+            if(LeftJumps > 0)
+            {
+                if (LeftJumps == MaxJumps)
+                {
+                    lastTimeJumpsReseted = 0;
+                }
+                LeftJumps = LeftJumps - 1;
+                Jump();
+                jumpPressed = false;
+            }
+        }
+
+        if (!jumpBufferTimeFulfilled)
         {
             jumpPressed = false;
         }
 
         transform.Translate(MovementSpeed * Time.deltaTime * Input.GetAxisRaw("Horizontal") * Vector3.right);
     }
-
-    //private void PlaceDoor()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.G))
-    //    {
-    //        DoorsController door = PlayerDoorInventory.Instance.GetGreenDoors();
-    //        if (door != null)
-    //        {
-    //            door.gameObject.SetActive(true);
-    //            EventManager.Instance.OnPlaceDoorHorizontally(door, new Vector3(transform.position.x + 2, transform.position.y, transform.position.z));
-    //        }
-    //    }
-
-    //    if (Input.GetKeyDown(KeyCode.R))
-    //    {
-    //        DoorsController door = PlayerDoorInventory.Instance.GetRedDoors();
-    //        if (door != null)
-    //        {
-    //            door.gameObject.SetActive(true);
-    //            EventManager.Instance.OnPlaceDoorHorizontally(door, new Vector3(transform.position.x + 2, transform.position.y, transform.position.z));
-    //        }
-    //    }
-
-    //    if (Input.GetKeyDown(KeyCode.B))
-    //    {
-    //        DoorsController door = PlayerDoorInventory.Instance.GetBlueDoors();
-    //        if (door != null)
-    //        {
-    //            door.gameObject.SetActive(true);
-    //            EventManager.Instance.OnPlaceDoorHorizontally(door, new Vector3(transform.position.x + 2, transform.position.y, transform.position.z));
-    //        }
-    //    }
-    //}
+    private void Jump()
+    {
+        rb.velocity = Vector3.zero;
+        rb.AddForce(JumpStrength * Vector3.up, ForceMode2D.Impulse);
+    }
 }

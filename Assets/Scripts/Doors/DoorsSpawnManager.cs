@@ -11,6 +11,7 @@ public class DoorsSpawnManager : MonoBehaviour
     [SerializeField] private DoorsController greenDoorPrefab;
     [SerializeField] private DoorsController redDoorsPrefab;
     [SerializeField] private DoorsController blueDoorsPrefab;
+    [SerializeField] private DoorsController purpleDoorsPrefab;
 
     private void Awake()
     {
@@ -95,6 +96,8 @@ public class DoorsSpawnManager : MonoBehaviour
             return Instantiate(greenDoorPrefab).gameObject;
         if (color == DoorColor.Blue)
             return Instantiate(blueDoorsPrefab).gameObject;
+        if (color == DoorColor.Purple)
+            return Instantiate(purpleDoorsPrefab).gameObject;
         return null;
     }
 }

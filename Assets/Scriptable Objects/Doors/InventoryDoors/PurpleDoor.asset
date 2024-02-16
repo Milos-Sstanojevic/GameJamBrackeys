@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e10bb331cf21b14082f93a9c279cf5b, type: 3}
-  m_Name: StrongerEnemy
+  m_Script: {fileID: 11500000, guid: 24579d3054f7d1942bb0f1ee36d46ac9, type: 3}
+  m_Name: PurpleDoor
   m_EditorClassIdentifier: 
-  movementSpeed: 3
-  shootingDistance: 100
-  shootingSpeed: 0.7
-  bulletSpeed: 70
+  DoorColor: 3
+  IsPremadeInScene: 0

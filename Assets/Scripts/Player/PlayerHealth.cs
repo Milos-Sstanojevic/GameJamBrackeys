@@ -5,27 +5,38 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour
 {
     private int health;
-
-    public int MaxHealth;
-    public int Health {
-        get
-        { 
-            return health; 
+    public int Health
+    {
+        set
+        {
+            health = value;
+            EventManager.Instance.OnHealthChanged(health);
         }
+        get { return health; }
     }
     private void Start()
     {
-        health = MaxHealth;
+        Health = 100;
+        EventManager.Instance.SubscribeToPlayerDied(Die);
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            TakeDamage(10);
+        }
+        else if (Input.GetKeyDown(KeyCode.L))
+        {
+            Die();
+        }
     }
     public void Die()
     {
-        health = 0;
-        Debug.Log("I died");
+        Health = 0;
     }
     public void TakeDamage(int dmg)
     {
-        health -= dmg;
-        health = health < 0 ? 0 : health;
-        Debug.Log("I took damage: " + dmg);
+        Health -= dmg;
+        Health = Health < 0 ? 0 : Health;
     }
 }
