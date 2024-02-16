@@ -14,13 +14,10 @@ public class EventManager : MonoBehaviour
     private event Action<DoorsController> selectedDoor;
     private event Action deselectedDoor;
     private event Action playerDied;
-<<<<<<< HEAD
     private event Action<PlatformsControlledByLevers> onChangeDirection;
-=======
     private event Action<int> leftJumpsChanged;
     private event Action<int> healthChanged;
     private event Action<int> keysCountChanged;
->>>>>>> e4182f6fa4908681f4e8363defcfef57463d1a12
 
     private void Awake()
     {
@@ -29,12 +26,11 @@ public class EventManager : MonoBehaviour
         else
             Destroy(gameObject);
     }
-<<<<<<< HEAD
     
     public void SubscribeToOnChangeDirection(Action<PlatformsControlledByLevers> action)
     {
         onChangeDirection += action;
-=======
+    }
     public void SubscribeToHealthChanged(Action<int> action)
     {
         healthChanged += action;
@@ -46,7 +42,6 @@ public class EventManager : MonoBehaviour
     public void SubscribeToLeftJumpsChanged(Action<int> action)
     {
         leftJumpsChanged += action;
->>>>>>> e4182f6fa4908681f4e8363defcfef57463d1a12
     }
     public void SubscribeToPlayerDied(Action action)
     {
@@ -89,16 +84,14 @@ public class EventManager : MonoBehaviour
     {
         placeDoorVerticallyAction += action;
     }
-<<<<<<< HEAD
 
     public void UnsubscribeToOnChangeDirection(Action<PlatformsControlledByLevers> action)
     {
         onChangeDirection -= action;
-=======
+    }
     public void UnsubscribeToLeftJumpsChanged(Action<int> action)
     {
         leftJumpsChanged -= action;
->>>>>>> e4182f6fa4908681f4e8363defcfef57463d1a12
     }
     public void UnsubscribeToPlayerDied(Action action)
     {
