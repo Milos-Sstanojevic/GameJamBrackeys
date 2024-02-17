@@ -17,6 +17,8 @@ public class EventManager : MonoBehaviour
     private event Action<int> leftJumpsChanged;
     private event Action<int> healthChanged;
     private event Action<int> keysCountChanged;
+    private event Action collectedJumpsAdder;
+    private event Action collectedWallJump;
 
     private void Awake()
     {
@@ -25,7 +27,15 @@ public class EventManager : MonoBehaviour
         else
             Destroy(gameObject);
     }
-    
+
+    public void SubscribeToCollectedWallJump(Action action)
+    {
+        collectedWallJump += action;
+    }
+    public void SubscribeToCollectedJumpsAdder(Action action)
+    {
+        collectedJumpsAdder += action;
+    }
     public void SubscribeToOnChangeDirection(Action<PlatformsControlledByLevers> action)
     {
         onChangeDirection += action;
@@ -80,6 +90,14 @@ public class EventManager : MonoBehaviour
         placeDoorVerticallyAction += action;
     }
 
+    public void UnsubscribeToCollectedWallJump(Action action)
+    {
+        collectedWallJump -= action;
+    }
+    public void UnsubscribeToCollectedJumpsAdder(Action action)
+    {
+        collectedJumpsAdder -= action;
+    }
     public void UnsubscribeToOnChangeDirection(Action<PlatformsControlledByLevers> action)
     {
         onChangeDirection -= action;
@@ -124,6 +142,14 @@ public class EventManager : MonoBehaviour
     public void UnsubscribeToCollectDoorAction(Action<DoorsController> action)
     {
         collectDoorAction -= action;
+    }
+    public void OnCollectedWallJump()
+    {
+        collectedWallJump?.Invoke();
+    }
+    public void OnCollectedJumpsAdder()
+    {
+        collectedJumpsAdder?.Invoke();
     }
     public void OnKeysCountChanged(int count)
     {

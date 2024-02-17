@@ -46,7 +46,16 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         collisionComponent = GetComponent<PlayerCollision>();
 
+        EventManager.Instance.SubscribeToCollectedJumpsAdder(AddJumps);
+        EventManager.Instance.SubscribeToCollectedWallJump(EnableWallJump);
+
+
         lastWallUsedForReset = null;
+    }
+    private void OnDisable()
+    {
+        EventManager.Instance.UnsubscribeToCollectedJumpsAdder(AddJumps);
+        EventManager.Instance.UnsubscribeToCollectedWallJump(EnableWallJump);
     }
 
     void Start()
@@ -79,7 +88,7 @@ public class PlayerController : MonoBehaviour
             lastWallUsedForReset = null;
         }
 
-        if (isTouchingWall)
+        if (WallJumpEnabled && isTouchingWall)
         {
             //if (lastWallUsedForReset != collisionComponent.LastTouchedWall)
             {
@@ -125,5 +134,13 @@ public class PlayerController : MonoBehaviour
     {
         rb.velocity = Vector3.zero;
         rb.AddForce(JumpStrength * Vector3.up, ForceMode2D.Impulse);
+    }
+    public void AddJumps()
+    {
+        MaxJumps++;
+    }
+    public void EnableWallJump()
+    {
+        WallJumpEnabled = true;
     }
 }
