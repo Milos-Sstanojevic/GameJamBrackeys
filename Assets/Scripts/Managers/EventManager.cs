@@ -10,14 +10,15 @@ public class EventManager : MonoBehaviour
     private event Action<DoorsController> collectDoorAction;
     private event Action<DoorsController, GameObject> teleportPlayerAction;
     private event Action<DoorColor> createDoorAction;
-    private event Action<DoorColor> takeDoorFromInventoryAction;
+    private event Action<DoorsController> takeDoorFromInventoryAction;
     private event Action<DoorsController> selectedDoor;
-    private event Action deselectedDoor;
     private event Action playerDied;
     private event Action<PlatformsControlledByLevers> onChangeDirection;
     private event Action<int> leftJumpsChanged;
     private event Action<int> healthChanged;
     private event Action<int> keysCountChanged;
+    private event Action collectedJumpsAdder;
+    private event Action collectedWallJump;
 
     private void Awake()
     {
@@ -26,7 +27,15 @@ public class EventManager : MonoBehaviour
         else
             Destroy(gameObject);
     }
-    
+
+    public void SubscribeToCollectedWallJump(Action action)
+    {
+        collectedWallJump += action;
+    }
+    public void SubscribeToCollectedJumpsAdder(Action action)
+    {
+        collectedJumpsAdder += action;
+    }
     public void SubscribeToOnChangeDirection(Action<PlatformsControlledByLevers> action)
     {
         onChangeDirection += action;
@@ -47,15 +56,11 @@ public class EventManager : MonoBehaviour
     {
         playerDied += action;
     }
-    public void SubscribeToDeselectedDoor(Action action)
-    {
-        deselectedDoor += action;
-    }
     public void SubscribeToSelectedDoor(Action<DoorsController> action)
     {
         selectedDoor += action;
     }
-    public void SubscribeToTakeDoorFromInventoryAction(Action<DoorColor> action)
+    public void SubscribeToTakeDoorFromInventoryAction(Action<DoorsController> action)
     {
         takeDoorFromInventoryAction += action;
     }
@@ -85,6 +90,14 @@ public class EventManager : MonoBehaviour
         placeDoorVerticallyAction += action;
     }
 
+    public void UnsubscribeToCollectedWallJump(Action action)
+    {
+        collectedWallJump -= action;
+    }
+    public void UnsubscribeToCollectedJumpsAdder(Action action)
+    {
+        collectedJumpsAdder -= action;
+    }
     public void UnsubscribeToOnChangeDirection(Action<PlatformsControlledByLevers> action)
     {
         onChangeDirection -= action;
@@ -96,10 +109,6 @@ public class EventManager : MonoBehaviour
     public void UnsubscribeToPlayerDied(Action action)
     {
         playerDied -= action;
-    }
-    public void UnsubscribeToDeselectedDoor(Action action)
-    {
-        deselectedDoor -= action;
     }
     public void UnsubscribeToSelectedDoor(Action<DoorsController> action)
     {
@@ -125,7 +134,7 @@ public class EventManager : MonoBehaviour
         createDoorAction -= action;
     }
 
-    public void UnsubscribeToTakeDoorFromInventoryAction(Action<DoorColor> action)
+    public void UnsubscribeToTakeDoorFromInventoryAction(Action<DoorsController> action)
     {
         takeDoorFromInventoryAction -= action;
     }
@@ -133,6 +142,14 @@ public class EventManager : MonoBehaviour
     public void UnsubscribeToCollectDoorAction(Action<DoorsController> action)
     {
         collectDoorAction -= action;
+    }
+    public void OnCollectedWallJump()
+    {
+        collectedWallJump?.Invoke();
+    }
+    public void OnCollectedJumpsAdder()
+    {
+        collectedJumpsAdder?.Invoke();
     }
     public void OnKeysCountChanged(int count)
     {
@@ -149,10 +166,6 @@ public class EventManager : MonoBehaviour
     public void OnPlayerDied()
     {
         playerDied?.Invoke();
-    }
-    public void OnDeselectedDoor()
-    {
-        deselectedDoor?.Invoke();
     }
     public void OnSelectedDoor(DoorsController door)
     {
@@ -183,9 +196,9 @@ public class EventManager : MonoBehaviour
         createDoorAction?.Invoke(color);
     }
 
-    public void OnTakeDoor(DoorColor color)
+    public void OnTakeDoor(DoorsController door)
     {
-        takeDoorFromInventoryAction?.Invoke(color);
+        takeDoorFromInventoryAction?.Invoke(door);
     }
 
     public void OnChangeDirection(PlatformsControlledByLevers platform)

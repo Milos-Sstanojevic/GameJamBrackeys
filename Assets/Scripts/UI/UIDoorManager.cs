@@ -3,71 +3,82 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Scripting;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class UIDoorManager : MonoBehaviour
 {
-    [SerializeField] private List<UIDoorInvertoryController> UIDoorPrefabs;
-    [SerializeField] private Canvas canvas;
-    private List<UIDoorInvertoryController> instantiatedDoors = new List<UIDoorInvertoryController>();
+    [SerializeField] private GameObject parentUI;
+    [SerializeField] private GameObject selector;
+
+    private DoorsController selectedDoor;
+    private List<DoorsControllerUIWrapper> wrappers;
     
     private void Start()
     {
-        foreach(DoorsController d in PlayerDoorInventory.Instance.GetDoorsInPlayerInventory())
+        wrappers = new List<DoorsControllerUIWrapper>();
+        foreach (DoorsController controller in PlayerDoorInventory.Instance.GetDoorsInPlayerInventory())
         {
-            UIAdd(d);
+            Add(controller);
         }
     }
     private void OnEnable()
     {
-        EventManager.Instance.SubscribeToCollectDoorAction(UIAdd);
-        EventManager.Instance.SubscribeToTakeDoorFromInventoryAction(UITake);
+        EventManager.Instance.SubscribeToCollectDoorAction(Add);
+        EventManager.Instance.SubscribeToTakeDoorFromInventoryAction(Remove);
+        EventManager.Instance.SubscribeToSelectedDoor(OnSelectedDoor);
     }
 
-    private void UIAdd(DoorsController door)
+    private void Add(DoorsController door)
     {
-        foreach(UIDoorInvertoryController d in UIDoorPrefabs)
+        var visual = AssetsManager.Instance.GetUIDoorsPrefab(door.GetDoorColor());
+
+        if (visual != null)
         {
-            if(d.GetDoorColor() == door.GetDoorColor())
-            {
-                UIDoorInvertoryController doorsUI = Instantiate(d);
-                instantiatedDoors.Add(doorsUI);
-                doorsUI.transform.SetParent(canvas.transform);
-                SetPosition();
-            }
+            var wrapper = Instantiate(visual, parentUI.transform).AddComponent<DoorsControllerUIWrapper>();
+            wrapper.doorController = door;
+            wrappers.Add(wrapper);
         }
     }
 
-    private void SetPosition()
+    private void Remove(DoorsController door)
     {
-        int i = 0;
-        foreach(UIDoorInvertoryController door in instantiatedDoors)
+        var wrapper = wrappers.Find(w => w.doorController == door);
+        if (wrapper != null)
         {
-            door.transform.position = new Vector3(-32+i*4,13,0);
-            i++;
+            DetachSelector();
+            wrappers.Remove(wrapper);
+            Destroy(wrapper.gameObject);
         }
     }
-
-    private void UITake(DoorColor doorColor)
+    private void OnSelectedDoor(DoorsController door)
     {
-        UIDoorInvertoryController doorDestroy = null;
-        foreach(UIDoorInvertoryController d in instantiatedDoors)
+        if (selectedDoor == door)
         {
-            if(d.GetDoorColor() == doorColor)
-            {
-                doorDestroy = d;
-            }
+            DetachSelector();
+            selectedDoor = null;
         }
-        if(doorDestroy!=null)
+        else
         {
-            instantiatedDoors.Remove(doorDestroy);
-            Destroy(doorDestroy.gameObject);
-            SetPosition();
+            var wrapper = wrappers.Find(w => w.doorController == door);
+            AttachSelector(wrapper.transform);
+            selectedDoor = door;
         }
     }
-
+    private void DetachSelector()
+    {
+        selector.transform.SetParent(null, false);
+        selector.transform.localPosition = Vector3.zero;
+        selector.gameObject.SetActive(false);
+    }
+    private void AttachSelector(Transform parent)
+    {
+        selector.transform.SetParent(parent, false);
+        selector.transform.localPosition = Vector3.zero;
+        selector.gameObject.SetActive(true);
+    }
     private void OnDisable()
     {
-        EventManager.Instance.UnsubscribeToCollectDoorAction(UIAdd);
-        EventManager.Instance.UnsubscribeToTakeDoorFromInventoryAction(UITake);
+        EventManager.Instance.UnsubscribeToCollectDoorAction(Add);
+        EventManager.Instance.UnsubscribeToTakeDoorFromInventoryAction(Remove);
     }
 }

@@ -9,8 +9,11 @@ public class PlayerHealth : MonoBehaviour
     {
         set
         {
-            health = value;
-            EventManager.Instance.OnHealthChanged(health);
+            if (health != value)
+            {
+                health = value;
+                EventManager.Instance.OnHealthChanged(health);
+            }
         }
         get { return health; }
     }
@@ -18,17 +21,6 @@ public class PlayerHealth : MonoBehaviour
     {
         Health = 100;
         EventManager.Instance.SubscribeToPlayerDied(Die);
-    }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            TakeDamage(10);
-        }
-        else if (Input.GetKeyDown(KeyCode.L))
-        {
-            Die();
-        }
     }
     public void Die()
     {
