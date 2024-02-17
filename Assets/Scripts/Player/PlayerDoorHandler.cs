@@ -28,10 +28,13 @@ public class PlayerDoorHandler : MonoBehaviour
     Vector3 doorPosition;
 
     private DoorsController currentlyTouchingDoor;
-    void Start()
+    void OnEnable()
     {
         EventManager.Instance.SubscribeToSelectedDoor(OnSelectedDoor);
-        EventManager.Instance.SubscribeToDeselectedDoor(OnDeselectedDoor);
+    }
+    private void OnDisable()
+    {
+        EventManager.Instance.UnsubscribeToSelectedDoor(OnSelectedDoor);
     }
     void Update()
     {

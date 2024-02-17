@@ -10,9 +10,8 @@ public class EventManager : MonoBehaviour
     private event Action<DoorsController> collectDoorAction;
     private event Action<DoorsController, GameObject> teleportPlayerAction;
     private event Action<DoorColor> createDoorAction;
-    private event Action<DoorColor> takeDoorFromInventoryAction;
+    private event Action<DoorsController> takeDoorFromInventoryAction;
     private event Action<DoorsController> selectedDoor;
-    private event Action deselectedDoor;
     private event Action playerDied;
     private event Action<PlatformsControlledByLevers> onChangeDirection;
     private event Action<int> leftJumpsChanged;
@@ -47,15 +46,11 @@ public class EventManager : MonoBehaviour
     {
         playerDied += action;
     }
-    public void SubscribeToDeselectedDoor(Action action)
-    {
-        deselectedDoor += action;
-    }
     public void SubscribeToSelectedDoor(Action<DoorsController> action)
     {
         selectedDoor += action;
     }
-    public void SubscribeToTakeDoorFromInventoryAction(Action<DoorColor> action)
+    public void SubscribeToTakeDoorFromInventoryAction(Action<DoorsController> action)
     {
         takeDoorFromInventoryAction += action;
     }
@@ -97,10 +92,6 @@ public class EventManager : MonoBehaviour
     {
         playerDied -= action;
     }
-    public void UnsubscribeToDeselectedDoor(Action action)
-    {
-        deselectedDoor -= action;
-    }
     public void UnsubscribeToSelectedDoor(Action<DoorsController> action)
     {
         selectedDoor -= action;
@@ -125,7 +116,7 @@ public class EventManager : MonoBehaviour
         createDoorAction -= action;
     }
 
-    public void UnsubscribeToTakeDoorFromInventoryAction(Action<DoorColor> action)
+    public void UnsubscribeToTakeDoorFromInventoryAction(Action<DoorsController> action)
     {
         takeDoorFromInventoryAction -= action;
     }
@@ -149,10 +140,6 @@ public class EventManager : MonoBehaviour
     public void OnPlayerDied()
     {
         playerDied?.Invoke();
-    }
-    public void OnDeselectedDoor()
-    {
-        deselectedDoor?.Invoke();
     }
     public void OnSelectedDoor(DoorsController door)
     {
@@ -183,9 +170,9 @@ public class EventManager : MonoBehaviour
         createDoorAction?.Invoke(color);
     }
 
-    public void OnTakeDoor(DoorColor color)
+    public void OnTakeDoor(DoorsController door)
     {
-        takeDoorFromInventoryAction?.Invoke(color);
+        takeDoorFromInventoryAction?.Invoke(door);
     }
 
     public void OnChangeDirection(PlatformsControlledByLevers platform)
