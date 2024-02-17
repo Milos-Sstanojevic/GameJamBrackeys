@@ -135,9 +135,6 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector3.zero;
         rb.AddForce(JumpStrength * Vector3.up, ForceMode2D.Impulse);
     }
-<<<<<<< HEAD
-
-=======
     public void AddJumps()
     {
         MaxJumps++;
@@ -146,5 +143,4 @@ public class PlayerController : MonoBehaviour
     {
         WallJumpEnabled = true;
     }
->>>>>>> a18fd0fd823ebad348db17fc27d5be5b0b07d729
 }
