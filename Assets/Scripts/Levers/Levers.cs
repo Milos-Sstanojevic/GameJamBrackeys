@@ -1,65 +1,89 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 public class Levers : MonoBehaviour
 {
-    private Dictionary<Transform, Vector3> originalPositions = new Dictionary<Transform, Vector3>();
-    private Dictionary<Transform, Vector3> targetPositions = new Dictionary<Transform, Vector3>();
+    private Dictionary<PlatformsControlledByLevers, Vector3> originalPositions = new Dictionary<PlatformsControlledByLevers, Vector3>();
+    private Dictionary<PlatformsControlledByLevers, Vector3> targetPositions = new Dictionary<PlatformsControlledByLevers, Vector3>();
     [SerializeField] private float timer = 3f;
     [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private float distance;
-    [SerializeField] private List<Transform> movingDoors = new List<Transform>();
+    [SerializeField] private List<PlatformsControlledByLevers> movingDoors = new List<PlatformsControlledByLevers>();
+    private bool stopMoving;
 
+    private void OnEnable()
+    {
+        EventManager.Instance.SubscribeToOnChangeDirection(Check);
+    }
 
-    public void AddDoorToLever(Transform movingPlatform)
+    private void Check(PlatformsControlledByLevers platform)
+    {
+        foreach(PlatformsControlledByLevers p in movingDoors)
+        {
+            if(p == platform)
+            {
+                stopMoving=true;
+                break;
+            }
+        }
+        foreach(PlatformsControlledByLevers p in movingDoors)
+        {
+            if(stopMoving)
+            {
+                StartCoroutine(MoveDoors(p.transform, originalPositions[p]));
+            }
+        }
+    }
+
+    public void AddDoorToLever(PlatformsControlledByLevers movingPlatform)
     {
         movingDoors.Add(movingPlatform);
     }
-
-    void Start()
+    private void Start()
     {
         for (int i = 0; i < movingDoors.Count; i++)
         {
-            Transform movingPlatform = movingDoors[i];
-            originalPositions[movingPlatform] = movingPlatform.position;
+            PlatformsControlledByLevers movingPlatform = movingDoors[i];
+            originalPositions[movingPlatform] = movingPlatform.transform.position;
             if (i % 2 == 0)
             {
                 targetPositions[movingPlatform] = originalPositions[movingPlatform] + Vector3.up * distance;
             }
             else
             {
-                 targetPositions[movingPlatform] = originalPositions[movingPlatform] + Vector3.up * -distance;
+                targetPositions[movingPlatform] = originalPositions[movingPlatform] + Vector3.up * -distance;
             }
         }
     }
-
-    void OnTriggerStay2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         if (other.GetComponent<PlayerController>() != null)
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                foreach (Transform movingPlatform in movingDoors)
+                foreach (PlatformsControlledByLevers movingPlatform in movingDoors)
                 {
-                    StartCoroutine(MoveDoors(movingPlatform, targetPositions[movingPlatform]));
+                    StartCoroutine(MoveDoors(movingPlatform.transform, targetPositions[movingPlatform]));
                 }
                 StartCoroutine(CloseDoor());
             }
         }
     }
 
-    IEnumerator CloseDoor()
+    private IEnumerator CloseDoor()
     {
         yield return new WaitForSeconds(timer);
-        foreach (Transform movingPlatform in movingDoors)
+        foreach (PlatformsControlledByLevers movingPlatform in movingDoors)
         {
-            StartCoroutine(MoveDoors(movingPlatform, originalPositions[movingPlatform]));
+            StartCoroutine(MoveDoors(movingPlatform.transform, originalPositions[movingPlatform]));
         }
     }
 
-    IEnumerator MoveDoors(Transform movingPlatform, Vector3 target)
+    private IEnumerator MoveDoors(Transform movingPlatform, Vector3 target)
     {
         Vector3 startPosition = movingPlatform.position;
         float elapsedTime = 0;
@@ -68,9 +92,11 @@ public class Levers : MonoBehaviour
         {
             movingPlatform.position = Vector3.Lerp(startPosition, target, (elapsedTime / timer) * moveSpeed);
             elapsedTime += Time.deltaTime;
+            
             yield return null;
         }
 
+        
         movingPlatform.position = target;
     }
 }

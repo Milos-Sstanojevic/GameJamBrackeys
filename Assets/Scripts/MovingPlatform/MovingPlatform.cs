@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,6 +54,7 @@ public class MovingPlatform : MonoBehaviour
         var targetPosition = currentTarget == 1 ? target1 : target2;
         var diff = targetPosition - transform.position;
         transform.Translate(diff.normalized * getAwayDistance);
+        
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -65,6 +67,16 @@ public class MovingPlatform : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            /*
+                * Desava se greska samo kada izadjes iz play mode-a dok stojis na moving platform
+                * 
+                * Greska se ovde javlja jer unity ne dozvoljava da se menja parent objektu koji
+                * se trenutno aktivira ili deaktivira. Ovde konkretno se player pokusava 
+                * deaktivirati i u tom trenutku moving platform skapira da je player izasao iz colizije
+                * (bas zbog deaktivacije pretposavljam) i pozove ovu funkciju.
+                *
+            */
+
             collision.gameObject.transform.SetParent(null);
         }
     }

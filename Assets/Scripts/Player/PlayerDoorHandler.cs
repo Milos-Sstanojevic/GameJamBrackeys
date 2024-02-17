@@ -9,9 +9,9 @@ using UnityEngine.UIElements;
 public class PlayerDoorHandler : MonoBehaviour
 {
     [SerializeField] float maxReach;
+    [SerializeField] GameObject reachIndicator;
     [SerializeField] [Range(0f, 1f)] float dummyDoorOkayOpacity;
-    [SerializeField][Range(0f, 1f)] float dummyDoorInvalidOpacity;
-    [SerializeField] Color invalidColor;
+    [SerializeField] [Range(0f, 1f)] float dummyDoorInvalidOpacity;
     private enum Rotation
     {
         horizontal,
@@ -28,14 +28,18 @@ public class PlayerDoorHandler : MonoBehaviour
     Vector3 doorPosition;
 
     private DoorsController currentlyTouchingDoor;
-    void Start()
+    void OnEnable()
     {
         EventManager.Instance.SubscribeToSelectedDoor(OnSelectedDoor);
-        EventManager.Instance.SubscribeToDeselectedDoor(OnDeselectedDoor);
+    }
+    private void OnDisable()
+    {
+        EventManager.Instance.UnsubscribeToSelectedDoor(OnSelectedDoor);
     }
     void Update()
     {
         mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mouseWorldPosition.z = 0;
 
         if (selectedDoor != null)
         {
@@ -44,10 +48,35 @@ public class PlayerDoorHandler : MonoBehaviour
         HandleCollectingDoor();
         HandleTeleporting();
     }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.DrawSphere(doorPosition, .1f);
+    //    Gizmos.DrawSphere(mouseWorldPosition, .1f);
 
+    //    Debug.Log("m: " + mouseWorldPosition + " tp: " + this.transform.position);
+
+
+    //    var unclamped = mouseWorldPosition - myPos;
+    //    var clamped = Vector3.ClampMagnitude(mouseWorldPosition - myPos, maxReach);
+    //    var my = unclamped.magnitude <= maxReach ? unclamped : unclamped.normalized * maxReach;
+
+    //    Debug.Log(unclamped.magnitude + " njihovo: " + clamped.magnitude + " moje: " + my.magnitude);
+
+    //    Gizmos.DrawLine(myPos, myPos + clamped);
+    //}
     private void HandleAddingDoor()
     {
-        doorPosition = this.transform.position + Vector3.ClampMagnitude(mouseWorldPosition - this.transform.position, maxReach);
+
+        if (reachIndicator.activeSelf == false)
+        {
+            reachIndicator.SetActive(true);
+        }
+
+        var position = this.transform.position;
+        position.z = 0;
+        
+
+        doorPosition = this.transform.position + Vector3.ClampMagnitude(mouseWorldPosition - position, maxReach);
 
         if (selectedDoor != null && dummyDoor != null)
         {
@@ -86,6 +115,7 @@ public class PlayerDoorHandler : MonoBehaviour
                 Destroy(dummyDoor);
                 selectedDoor = null;
                 dummyDoor = null;
+                reachIndicator.SetActive(false);
             }
         }
     }
@@ -103,6 +133,7 @@ public class PlayerDoorHandler : MonoBehaviour
         {
             selectedDoor = null;
             Destroy(dummyDoor);
+            reachIndicator.SetActive(false);
         }
 
         selectedDoor = door;
@@ -123,6 +154,7 @@ public class PlayerDoorHandler : MonoBehaviour
     {
         selectedDoor = null;
         Destroy(dummyDoor);
+        reachIndicator.SetActive(false);
     }
 
     private void PlaceDoor(DoorsController door, Vector3 position, Rotation rotation)

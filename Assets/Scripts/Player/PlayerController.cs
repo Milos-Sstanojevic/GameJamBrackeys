@@ -18,6 +18,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] bool WallJumpEnabled;
 
     private int leftJumps;
+    private int LeftJumps
+    {
+        set
+        {
+            if (leftJumps != value)
+            {
+                leftJumps = value;
+                EventManager.Instance.OnLeftJumpsChanged(leftJumps);
+            }
+        }
+        get { return leftJumps; }
+    }
     private bool jumpPressed;
     private float lastTimeJumpsReseted;
     private float lastTimeJumpPressed;
@@ -34,12 +46,21 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         collisionComponent = GetComponent<PlayerCollision>();
 
+        EventManager.Instance.SubscribeToCollectedJumpsAdder(AddJumps);
+        EventManager.Instance.SubscribeToCollectedWallJump(EnableWallJump);
+
+
         lastWallUsedForReset = null;
+    }
+    private void OnDisable()
+    {
+        EventManager.Instance.UnsubscribeToCollectedJumpsAdder(AddJumps);
+        EventManager.Instance.UnsubscribeToCollectedWallJump(EnableWallJump);
     }
 
     void Start()
     {
-        leftJumps = MaxJumps;
+        LeftJumps = MaxJumps;
         jumpPressed = false;
         lastTimeJumpsReseted = float.MinValue;
         lastTimeJumpPressed = float.MinValue;
@@ -67,7 +88,7 @@ public class PlayerController : MonoBehaviour
             lastWallUsedForReset = null;
         }
 
-        if (isTouchingWall)
+        if (WallJumpEnabled && isTouchingWall)
         {
             //if (lastWallUsedForReset != collisionComponent.LastTouchedWall)
             {
@@ -78,25 +99,25 @@ public class PlayerController : MonoBehaviour
 
         if (coyoteTimeFulfilled)
         {
-            leftJumps = MaxJumps;
+            LeftJumps = MaxJumps;
         }
         else
         {
-            if (leftJumps == MaxJumps)
+            if (LeftJumps == MaxJumps)
             {
-                leftJumps = MaxJumps - 1;
+                LeftJumps = MaxJumps - 1;
             }
         }
 
         if (jumpPressed)
         {
-            if(leftJumps > 0)
+            if(LeftJumps > 0)
             {
-                if (leftJumps == MaxJumps)
+                if (LeftJumps == MaxJumps)
                 {
                     lastTimeJumpsReseted = 0;
                 }
-                leftJumps = leftJumps - 1;
+                LeftJumps = LeftJumps - 1;
                 Jump();
                 jumpPressed = false;
             }
@@ -113,5 +134,13 @@ public class PlayerController : MonoBehaviour
     {
         rb.velocity = Vector3.zero;
         rb.AddForce(JumpStrength * Vector3.up, ForceMode2D.Impulse);
+    }
+    public void AddJumps()
+    {
+        MaxJumps++;
+    }
+    public void EnableWallJump()
+    {
+        WallJumpEnabled = true;
     }
 }

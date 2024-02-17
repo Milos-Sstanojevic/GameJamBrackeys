@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: StrongerEnemy
   m_EditorClassIdentifier: 
   movementSpeed: 3
-  shootingDistance: 30
+  shootingDistance: 100
   shootingSpeed: 0.7
   bulletSpeed: 70
