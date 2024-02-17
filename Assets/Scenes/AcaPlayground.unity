@@ -3258,7 +3258,7 @@ PrefabInstance:
     - target: {fileID: 645872873093343023, guid: 46a5754069f2f3e4280625aaebc0138b, type: 3}
       propertyPath: configuration
       value: 
-      objectReference: {fileID: 11400000, guid: 2313d271dd20bdd43839fb8b16bafc9d, type: 2}
+      objectReference: {fileID: 11400000, guid: e1e2d3f797ee3d04b9d8d019bdb9f61f, type: 2}
     - target: {fileID: 645872873093343023, guid: 46a5754069f2f3e4280625aaebc0138b, type: 3}
       propertyPath: rightBoundary
       value: 29.5
