@@ -126,4 +126,5 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector3.zero;
         rb.AddForce(JumpStrength * Vector3.up, ForceMode2D.Impulse);
     }
+
 }
