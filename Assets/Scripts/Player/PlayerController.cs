@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
 
         if (isTouchingWall)
         {
-            if (lastWallUsedForReset != collisionComponent.LastTouchedWall)
+            //if (lastWallUsedForReset != collisionComponent.LastTouchedWall)
             {
                 lastTimeJumpsReseted = Time.time;
                 lastWallUsedForReset = collisionComponent.LastTouchedWall;
