@@ -36,6 +36,7 @@ public class PlayerDoorHandler : MonoBehaviour
     void Update()
     {
         mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mouseWorldPosition.z = 0;
 
         if (selectedDoor != null)
         {
@@ -70,6 +71,7 @@ public class PlayerDoorHandler : MonoBehaviour
 
         var position = this.transform.position;
         position.z = 0;
+        
 
         doorPosition = this.transform.position + Vector3.ClampMagnitude(mouseWorldPosition - position, maxReach);
 
