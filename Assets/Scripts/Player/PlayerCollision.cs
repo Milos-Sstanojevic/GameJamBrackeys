@@ -14,6 +14,8 @@ public class PlayerCollision : MonoBehaviour
 
     [SerializeField] float wallCheckSpread;
 
+    [SerializeField] float headOffset;
+
     private PlayerDoorHandler playerController;
     private DoorsController currentlyTouchedDoor;
 
@@ -83,6 +85,17 @@ public class PlayerCollision : MonoBehaviour
         if (isTouchingWall)
         {
             lastTouchedWall = lastTrueTriggeringObject;
+        }
+
+        if (isGrounded)
+        {
+            var headPosition = transform.position + headOffset * Vector3.up;
+
+            int c5 = Physics2D.RaycastNonAlloc(headPosition, Vector3.up, results, checkDepth);
+            if (AnyIsPlatform(results, c5))
+            {
+                EventManager.Instance.OnPlayerDied();
+            }    
         }
     }
     private GameObject lastTrueTriggeringObject;

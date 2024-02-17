@@ -16,3 +16,4 @@ MonoBehaviour:
   shootingDistance: 20
   shootingSpeed: 1
   bulletSpeed: 30
+  shootigSound: {fileID: 8300000, guid: 7aec47ff69954f241a04cf9c789e8abe, type: 3}

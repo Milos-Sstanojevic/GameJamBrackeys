@@ -15,12 +15,17 @@ public class EnemyController : MonoBehaviour
     [SerializeField] float rightBoundary;
     [SerializeField] EnemyData configuration;
 
+    private AudioSource audioSource;
+
     private Transform target;
     private EnemyState state;
     private int direction;
 
+
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+
         state = EnemyState.Idle;
         direction = Random.Range(0f, 1f) > .5f ? 1 : -1;
         target = GameObject.FindAnyObjectByType<PlayerController>().transform;
@@ -54,6 +59,11 @@ public class EnemyController : MonoBehaviour
         bullet.transform.position = transform.position;
         bullet.Velocity = diff * configuration.bulletSpeed;
         bullet.ActivationTime = Time.time;
+
+        if (audioSource != null)
+        {
+            audioSource.PlayOneShot(configuration.shootigSound);
+        }
     }
     private void GetCloser()
     {

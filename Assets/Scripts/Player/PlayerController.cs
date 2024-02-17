@@ -8,8 +8,12 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.Video;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(PlayerCollision))]
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] AudioClip jumpSound;
+
     [SerializeField] int MaxJumps;
     [SerializeField] float MovementSpeed;
     [SerializeField] float JumpStrength;
@@ -39,15 +43,18 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
     private PlayerCollision collisionComponent;
+    private AudioSource audioSource;
 
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         collisionComponent = GetComponent<PlayerCollision>();
+        audioSource = GetComponent<AudioSource>();
 
         EventManager.Instance.SubscribeToCollectedJumpsAdder(AddJumps);
         EventManager.Instance.SubscribeToCollectedWallJump(EnableWallJump);
+
 
 
         lastWallUsedForReset = null;
@@ -134,6 +141,11 @@ public class PlayerController : MonoBehaviour
     {
         rb.velocity = Vector3.zero;
         rb.AddForce(JumpStrength * Vector3.up, ForceMode2D.Impulse);
+        if (audioSource != null)
+        {
+            audioSource.PlayOneShot(jumpSound);
+            audioSource.pitch = 1f + UnityEngine.Random.Range(0, 0.5f);
+        }
     }
     public void AddJumps()
     {

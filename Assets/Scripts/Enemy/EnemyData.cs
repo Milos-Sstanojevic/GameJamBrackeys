@@ -9,4 +9,6 @@ public class EnemyData : ScriptableObject
     public float shootingDistance;
     public float shootingSpeed;
     public float bulletSpeed;
+
+    [SerializeField] public AudioClip shootigSound;
 }

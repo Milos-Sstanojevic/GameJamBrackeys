@@ -16,7 +16,7 @@ public class PlayerDoorInventoryHandler : MonoBehaviour
             }
         }
     }
-    
+
     private int getPressedIndex()
     {
         int index = -1;
