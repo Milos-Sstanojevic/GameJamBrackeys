@@ -12,5 +12,8 @@ public enum DoorColor
     Red,
     Green,
     Blue,
-    Purple
+    Purple,
+    Pink,
+    Orange,
+    Yellow
 }
