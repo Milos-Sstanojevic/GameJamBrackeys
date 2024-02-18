@@ -12,7 +12,6 @@ public class RestartManager : MonoBehaviour
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Instantiate(player);
-        Debug.Log(Instantiate(player));
     }
 
     public void MainMenu()
