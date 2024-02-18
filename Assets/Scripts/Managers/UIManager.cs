@@ -32,6 +32,15 @@ public class UIManager : MonoBehaviour
     }
     private void Update()
     {
+        if (jiTransform == null)
+        {
+            throw new Exception("jiTransform");
+        }
+        if (player == null)
+        {
+            throw new Exception("player");
+        }
+
         jiTransform.position = Camera.main.WorldToScreenPoint(player.transform.position + offset);
     }
     void OnJumpCountChanged(int count)
