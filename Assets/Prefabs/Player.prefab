@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e8d25244d76e1c4b996f685cf2f2b93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpSound: {fileID: 8300000, guid: 968fd8faa9a8d55449f56b8c8c1d229b, type: 3}
+  jumpSound: {fileID: 8300000, guid: febd6de809f6dea47944cef571303d77, type: 3}
   MaxJumps: 1
   MovementSpeed: 15
   JumpStrength: 35
@@ -194,6 +194,7 @@ MonoBehaviour:
   feetVerticalOffset: 1
   feetHorizontalSpread: 0.25
   wallCheckSpread: 0.5
+  headOffset: 1
 --- !u!50 &6343602534534421862
 Rigidbody2D:
   serializedVersion: 4
@@ -265,7 +266,7 @@ AudioSource:
   m_GameObject: {fileID: 2392399385262791239}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -1955755170378548660, guid: 354cfe004d21c45489a8e658e92af36c, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1

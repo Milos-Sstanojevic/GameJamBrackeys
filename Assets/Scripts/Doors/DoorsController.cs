@@ -54,6 +54,7 @@ public class DoorsController : MonoBehaviour
                     if (d != door)
                     {
                         player.transform.position = new Vector3(d.transform.position.x, d.transform.position.y + 0.5f, d.transform.position.z);
+                        CinemachineManager.Instance.OnTeleportFinished(player.transform.position);
                     }
                 }
             }
