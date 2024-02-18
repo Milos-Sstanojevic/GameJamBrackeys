@@ -33,7 +33,6 @@ public class CinemachineManager : MonoBehaviour
 
         if (newCollider != null)
         {
-            Debug.Log(newCollider.name);
             confiner.m_BoundingShape2D = newCollider;
         }
     }

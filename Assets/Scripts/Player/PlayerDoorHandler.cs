@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Overlays;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -80,7 +79,11 @@ public class PlayerDoorHandler : MonoBehaviour
 
         if (selectedDoor != null && dummyDoor != null)
         {
-            var isOverlaping = dummyDoorCollider.OverlapCollider(new ContactFilter2D().NoFilter(), new Collider2D[1]) > 0;
+            var filter = new ContactFilter2D();
+            filter.layerMask &= ~(1 << LayerMask.NameToLayer("Ignore Raycast"));
+
+            
+            var isOverlaping = dummyDoorCollider.OverlapCollider(filter, new Collider2D[1]) > 0;
 
             var dir = doorPosition - this.transform.position;
             var hits = Physics2D.RaycastAll(transform.position, dir.normalized, dir.magnitude);

@@ -22,7 +22,6 @@ public class DoorsSpawnManager : MonoBehaviour
 
         teleportAvailableDoors = new List<DoorsController>();
     }
-
     private void OnEnable()
     {
         EventManager.Instance.SubscribeToCreateDoorAction(CreateDoor);
@@ -55,6 +54,7 @@ public class DoorsSpawnManager : MonoBehaviour
         List<DoorsController> doors = new List<DoorsController>();
         foreach (DoorsController door in teleportAvailableDoors)
         {
+            Debug.Log(door.GetDoorColor());
             if (door.GetDoorColor() == color && door.gameObject.activeSelf)
                 doors.Add(door);
         }
@@ -71,19 +71,22 @@ public class DoorsSpawnManager : MonoBehaviour
         if (color == DoorColor.Blue)
             {
                 DoorsController door=Instantiate(blueDoorsPrefab);
+                teleportAvailableDoors.Add(door);
                 PlayerDoorInventory.Instance.AddDoorToPlayerInventory(door);
                 EventManager.Instance.OnCollectDoor(door);
             }
         if (color == DoorColor.Green)
             {
                 DoorsController door = Instantiate(greenDoorPrefab);
-                PlayerDoorInventory.Instance.AddDoorToPlayerInventory(door);
+            teleportAvailableDoors.Add(door);
+            PlayerDoorInventory.Instance.AddDoorToPlayerInventory(door);
                 EventManager.Instance.OnCollectDoor(door);
             }
         if (color == DoorColor.Red)
             {
                 DoorsController door = Instantiate(redDoorsPrefab);
-                PlayerDoorInventory.Instance.AddDoorToPlayerInventory(door);
+            teleportAvailableDoors.Add(door);
+            PlayerDoorInventory.Instance.AddDoorToPlayerInventory(door);
                 EventManager.Instance.OnCollectDoor(door);
             }
     }

@@ -85,6 +85,7 @@ public class Levers : MonoBehaviour
 
     private IEnumerator MoveDoors(Transform movingPlatform, Vector3 target)
     {
+        Debug.Log("Lever Clicked za " + movingPlatform.name);
         Vector3 startPosition = movingPlatform.position;
         float elapsedTime = 0;
 
