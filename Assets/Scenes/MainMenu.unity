@@ -1325,11 +1325,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-<<<<<<< HEAD
-          m_StringArgument: Playground
-=======
           m_StringArgument: AcaPlayground
->>>>>>> 7bc3f9651c69f70e904ffbdd665d12837f0914bf
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &534881781
