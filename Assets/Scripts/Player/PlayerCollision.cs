@@ -93,7 +93,7 @@ public class PlayerCollision : MonoBehaviour
             int c5 = Physics2D.RaycastNonAlloc(headPosition, Vector3.up, results, checkDepth);
             if (AnyIsPlatform(results, c5))
             {
-                EventManager.Instance.OnPlayerDied();
+                //EventManager.Instance.OnPlayerDied();
             }    
         }
     }

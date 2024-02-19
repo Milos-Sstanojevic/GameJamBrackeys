@@ -14,7 +14,7 @@ public class PlayerDoorInventory : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
 
         inventoryOfPlayer = new List<DoorsController>();

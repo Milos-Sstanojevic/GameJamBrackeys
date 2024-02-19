@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] GameObject player;
+    GameObject player;
 
     [SerializeField] GameObject jumpIndicator;
     [SerializeField] List<Sprite> masks;
@@ -29,16 +29,14 @@ public class UIManager : MonoBehaviour
 
         jiTransform = jumpIndicator.GetComponent<RectTransform>();
         jiImage = jumpIndicator.GetComponent<Image>();
+
+        player = FindAnyObjectByType<PlayerController>().gameObject;
     }
     private void Update()
     {
-        if (jiTransform == null)
-        {
-            throw new Exception("jiTransform");
-        }
         if (player == null)
         {
-            throw new Exception("player");
+            player = FindAnyObjectByType<PlayerController>().gameObject;
         }
 
         jiTransform.position = Camera.main.WorldToScreenPoint(player.transform.position + offset);

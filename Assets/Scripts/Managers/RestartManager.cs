@@ -7,11 +7,15 @@ public class RestartManager : MonoBehaviour
 {
     [SerializeField] private GameObject player;
 
+    private void Awake()
+    {
+        EventManager.Instance.SubscribeToPlayerDied(Restart);
+    }
     public void Restart()
     {
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        Instantiate(player);
+        //Instantiate(player);
     }
 
     public void MainMenu()
