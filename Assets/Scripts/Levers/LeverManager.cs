@@ -65,12 +65,14 @@ public class LeverManager : MonoBehaviour
             switch (isRaised)
             {
                 case true:
+                    Debug.Log("case true");
                     StartCoroutine(CloseDoor());
                     isRaised = false;
                     break;
                     
                 
                 case false:
+                    Debug.Log("case false");
                     foreach (PlatformsControlledByLevers movingPlatform in movingDoors)
                     {
                         StartCoroutine(MoveDoors(movingPlatform.transform, targetPositions[movingPlatform]));
@@ -93,17 +95,8 @@ public class LeverManager : MonoBehaviour
     private IEnumerator MoveDoors(Transform movingPlatform, Vector3 target)
     {
         Vector3 startPosition = movingPlatform.position;
-        float elapsedTime = 0;
-
-        while (elapsedTime < 1)
-        {
-            movingPlatform.position = Vector3.Lerp(startPosition, target, (elapsedTime / 1) * moveSpeed);
-            elapsedTime += Time.deltaTime;
-            
-            yield return null;
-        }
-
-        
+        movingPlatform.position = Vector3.Lerp(startPosition, target, moveSpeed);
         movingPlatform.position = target;
+        yield return null;
     }
 }

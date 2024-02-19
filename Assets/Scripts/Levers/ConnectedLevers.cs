@@ -9,6 +9,7 @@ public class ConnectedLevers : MonoBehaviour
     {
         if (other.GetComponent<PlayerController>() != null && Input.GetKeyDown(KeyCode.E))
         {
+            Debug.Log("Connected Levers");
             leverManager.PlatformMover();
         }
     }

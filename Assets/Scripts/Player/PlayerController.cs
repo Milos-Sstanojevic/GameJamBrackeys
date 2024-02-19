@@ -76,11 +76,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.O))
-        {
-            FindObjectOfType<EndGameCanvas>().OpenOnDeath();
-        }
-        
         if (Input.GetKeyDown(KeyCode.Space))
         {
             jumpPressed = true;
