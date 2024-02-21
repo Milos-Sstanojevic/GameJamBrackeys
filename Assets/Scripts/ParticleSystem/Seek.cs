@@ -7,12 +7,14 @@ public class Seek : MonoBehaviour
 {
     [SerializeField] Vector3 target;
     [SerializeField] float accelerationStrength;
+    [SerializeField] float lookAheadDistance;
     [SerializeField] float killingDistance;
 
     private Particle[] particles;
     private ParticleSystem myParticleSystem;
 
     private Vector3 midPoint;
+
     private void Awake()
     {
         myParticleSystem = GetComponent<ParticleSystem>();
@@ -26,37 +28,35 @@ public class Seek : MonoBehaviour
     {
         int numParticlesAlive = myParticleSystem.GetParticles(particles);
 
-        float distance = (target - transform.position).magnitude;
+        float pathLength = (target - transform.position).magnitude;
+        Vector3 pathDirection = (target - transform.position).normalized;
+
+        Vector3 lookAhead = pathDirection * lookAheadDistance;
 
         for (int i = 0; i < numParticlesAlive; i++)
         {
             var particle = particles[i];
             //--------------------------------------------------------------------------
-
-            float distanceTraveled = (particle.position - transform.position).magnitude;
             float distanceToTarget = (target - particle.position).magnitude;
+            float distanceTraveled = (transform.position - particle.position).magnitude;
 
-            //float t = 1f - particle.remainingLifetime / particle.startLifetime;
-            float t = distanceTraveled / distance;
-            //float steped = t > 0.5f ? 1f : 0f;
-            //float f0_03_1 = Mathf.Max(0, (t * 3 - 1) / 2);
-            float quickLinearTransition = Mathf.Min(1, Mathf.Max(0, t * 5 - 2));
-            float f1_015 = Mathf.Pow(1f - t * .6f, 2);
+            float t = distanceTraveled / pathLength;
 
-            Vector3 lerpedTarget = Vector3.Lerp(midPoint, target, quickLinearTransition);
-            if (i == 0)
-            {
-                Debug.Log(lerpedTarget);
-            }
-            Vector3 acc = (target - particle.position).normalized * accelerationStrength;// * f1_015;
+            Vector3 projectionOnPath = Vector3.Project(particle.position - transform.position, pathDirection);
+
+            Vector3 currentTarget = transform.position + projectionOnPath + lookAhead * (.1f + t);
+
+            Vector3 toCurrentTarget = (currentTarget - particle.position).normalized;
+
+            Vector3 acc = toCurrentTarget * accelerationStrength;
+
 
             particle.velocity += acc;
-
+             
             if (distanceToTarget < killingDistance)
             {
                 particle.remainingLifetime = 0f;
             }
-
             //--------------------------------------------------------------------------
             particles[i] = particle;
         }
