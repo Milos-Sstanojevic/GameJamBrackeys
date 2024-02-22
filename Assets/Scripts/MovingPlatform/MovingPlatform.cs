@@ -28,6 +28,9 @@ public class MovingPlatform : MonoBehaviour
     void Update()
     {
         var targetPosition = currentTarget == 1 ? target1 : target2;
+        Debug.Log(target1);
+        Debug.Log(target2);
+        //Debug.Log(targetPosition);
         var diff = targetPosition - transform.position;
 
         transform.Translate(diff.normalized * movingSpeed * Time.deltaTime);
