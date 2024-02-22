@@ -15,9 +15,17 @@ public class Levers : MonoBehaviour
     [SerializeField] private List<PlatformsControlledByLevers> movingDoors = new List<PlatformsControlledByLevers>();
     private bool stopMoving;
 
+    private Animator animator;
+    private AudioSource audioSource;
+
     private void OnEnable()
     {
         EventManager.Instance.SubscribeToOnChangeDirection(Check);
+    }
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Check(PlatformsControlledByLevers platform)
@@ -65,6 +73,8 @@ public class Levers : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
+                animator?.SetTrigger("Press");
+                audioSource?.PlayOneShot(audioSource.clip);
                 foreach (PlatformsControlledByLevers movingPlatform in movingDoors)
                 {
                     StartCoroutine(MoveDoors(movingPlatform.transform, targetPositions[movingPlatform]));
