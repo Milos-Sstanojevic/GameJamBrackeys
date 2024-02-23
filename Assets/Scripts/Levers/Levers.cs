@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,6 +66,20 @@ public class Levers : MonoBehaviour
             {
                 targetPositions[movingPlatform] = originalPositions[movingPlatform] + Vector3.up * -distance;
             }
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            CinemachineManager.Instance.Frame(transform, movingDoors[0].transform);
+        }
+    }
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            CinemachineManager.Instance.Unframe(1f);
         }
     }
     private void OnTriggerStay2D(Collider2D other)
