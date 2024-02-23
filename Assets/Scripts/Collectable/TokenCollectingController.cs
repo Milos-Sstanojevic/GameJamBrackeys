@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class TokenCollectingController : MonoBehaviour
 {
-    [SerializeField] private TokenScriptableObject tokenScriptableObject;
+    [SerializeField] private DoorColor doorColor;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.GetComponent<PlayerController>() != null)
+        if (other.CompareTag("Player"))
         {
-            EventManager.Instance.OnCreateDoor(tokenScriptableObject.TokenColor);
+            EventManager.Instance.OnCollectToken(doorColor);
             Destroy(gameObject);
         }
     }

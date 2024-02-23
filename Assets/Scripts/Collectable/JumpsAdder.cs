@@ -8,7 +8,7 @@ public class JumpsAdder : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            EventManager.Instance.OnCollectedJumpsAdder();
+            EventManager.Instance.OnCollectJumpsAdder();
             Destroy(gameObject);
         }
     }

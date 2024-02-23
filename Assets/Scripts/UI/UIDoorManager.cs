@@ -23,14 +23,20 @@ public class UIDoorManager : MonoBehaviour
     }
     private void OnEnable()
     {
-        EventManager.Instance.SubscribeToCollectDoorAction(Add);
-        EventManager.Instance.SubscribeToTakeDoorFromInventoryAction(Remove);
-        EventManager.Instance.SubscribeToSelectedDoor(OnSelectedDoor);
+        EventManager.Instance.SubscribeToCollectedDoor(Add);
+        EventManager.Instance.SubscribeToPlaceDoor(Remove);
+        EventManager.Instance.SubscribeToSelectDoor(OnSelectedDoor);
+    }
+    private void OnDisable()
+    {
+        EventManager.Instance.UnsubscribeToCollectedDoor(Add);
+        EventManager.Instance.UnsubscribeToPlaceDoor(Remove);
+        EventManager.Instance.UnsubscribeToSelectDoor(OnSelectedDoor);
     }
 
     private void Add(DoorsController door)
     {
-        var visual = AssetsManager.Instance.GetUIDoorsPrefab(door.GetDoorColor());
+        var visual = AssetsManager.Instance.GetUIDoorsPrefab(door.DoorColor);
 
         if (visual != null)
         {
@@ -75,10 +81,5 @@ public class UIDoorManager : MonoBehaviour
         selector.transform.SetParent(parent, false);
         selector.transform.localPosition = Vector3.zero;
         selector.gameObject.SetActive(true);
-    }
-    private void OnDisable()
-    {
-        EventManager.Instance.UnsubscribeToCollectDoorAction(Add);
-        EventManager.Instance.UnsubscribeToTakeDoorFromInventoryAction(Remove);
     }
 }

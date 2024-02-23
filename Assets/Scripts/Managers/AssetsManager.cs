@@ -9,6 +9,12 @@ public class AssetsManager : MonoBehaviour
     [SerializeField] public GameObject blueUIDoors;
     [SerializeField] public GameObject purpleUIDoors;
 
+
+    [SerializeField] public GameObject redDoors;
+    [SerializeField] public GameObject greenDoors;
+    [SerializeField] public GameObject blueDoors;
+    [SerializeField] public GameObject purpleDoors;
+
     public GameObject GetUIDoorsPrefab(DoorColor color)
     {
         if (color == DoorColor.Red)
@@ -26,6 +32,29 @@ public class AssetsManager : MonoBehaviour
         else if (color == DoorColor.Purple)
         {
             return purpleUIDoors;
+        }
+        else
+        {
+            return null;
+        }
+    }
+    public GameObject GetDoorsPrefab(DoorColor color)
+    {
+        if (color == DoorColor.Red)
+        {
+            return redDoors;
+        }
+        else if (color == DoorColor.Green)
+        {
+            return greenDoors;
+        }
+        else if (color == DoorColor.Blue)
+        {
+            return blueDoors;
+        }
+        else if (color == DoorColor.Purple)
+        {
+            return purpleDoors;
         }
         else
         {

@@ -1,69 +1,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum DoorColor
+{
+    Red,
+    Green,
+    Blue,
+    Purple,
+    Pink,
+    Orange,
+    Yellow
+}
 public class DoorsController : MonoBehaviour
 {
-    [SerializeField] private DoorScriptableObject doorScriptableObject;
-
-    private void Awake()
+    [SerializeField] public DoorColor DoorColor;
+    [SerializeField] public bool IsPremadeInScene;
+    public void TeleportPlayer(GameObject player)
     {
-        EventManager.Instance.SubscribeToPlaceDoorHorizontallyAction(PlaceDoorHorizontally);
-        EventManager.Instance.SubscribeToPlaceDoorVerticallyAction(PlaceDoorVertically);
-        EventManager.Instance.SubscribeToCollectDoorAction(CollectDoor);
-        EventManager.Instance.SubscribeToTeleportPlayer(TeleportPlayer);
-    }
+        List<DoorsController> doors = DoorsSpawnManager.Instance.GetActiveDoorsOfColor(this.DoorColor);
 
-    private void PlaceDoorHorizontally(DoorsController door, Vector3 position)
-    {
-        if (door == this)
+        if (doors.Count == 2)
         {
-            door.transform.position = position;
-            door.transform.eulerAngles = new Vector3(0, 0, 0);
-            EventManager.Instance.OnTakeDoor(door);
+            DoorsController other = doors.Find(d => d != this);
+            player.transform.position = new Vector3(other.transform.position.x, other.transform.position.y + 0.5f, other.transform.position.z);
+
+            EventManager.Instance.OnPlayerTeleported(player);
         }
     }
 
-    private void PlaceDoorVertically(DoorsController door, Vector3 position)
-    {
-        if (door == this)
-        {
-            door.transform.position = position;
-            door.transform.eulerAngles = new Vector3(0, 0, 90);
-            EventManager.Instance.OnTakeDoor(door);
-        }
-    }
-
-    private void CollectDoor(DoorsController door)
-    {
-        if (door == this)
-        {
-            door.gameObject.SetActive(false);
-            PlayerDoorInventory.Instance.AddDoorToPlayerInventory(door);
-        }
-    }
-
-    private void TeleportPlayer(DoorsController door, GameObject player)
-    {
-        if (door == this)
-        {
-            List<DoorsController> doors = DoorsSpawnManager.Instance.GetActiveDoorsOfColor(door.GetDoorColor());
-            if (doors != null)
-            {
-                foreach (DoorsController d in doors)
-                {
-                    if (d != door)
-                    {
-                        player.transform.position = new Vector3(d.transform.position.x, d.transform.position.y + 0.5f, d.transform.position.z);
-                        CinemachineManager.Instance.OnTeleportFinished(player.transform.position);
-                    }
-                }
-            }
-        }
-    }
-
-    public DoorColor GetDoorColor() => doorScriptableObject.DoorColor;
-
-    public bool IsDoorPremadeInScene() => doorScriptableObject.IsPremadeInScene;
+    //public DoorColor GetDoorColor() => doorColor;
+    //public bool IsDoorPremadeInScene() => isPremadeInScene;
 
 
+    //private void CollectDoor(DoorsController door)
+    //{
+    //    if (door == this)
+    //    {
+    //        door.gameObject.SetActive(false);
+    //        PlayerDoorInventory.Instance.AddDoorToPlayerInventory(door);
+    //    }
+    //}
 }

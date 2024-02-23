@@ -8,7 +8,7 @@ public class WallJumpUnlocker : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            EventManager.Instance.OnCollectedWallJump();
+            EventManager.Instance.OnCollectWallJump();
             Destroy(gameObject);
         }
     }

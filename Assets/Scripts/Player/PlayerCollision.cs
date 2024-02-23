@@ -15,9 +15,6 @@ public class PlayerCollision : MonoBehaviour
 
     [SerializeField] float headOffset;
 
-    private PlayerDoorHandler playerController;
-    private DoorsController currentlyTouchedDoor;
-
     private Vector3 leftFeet;
     private Vector3 rightFeet;
 
@@ -31,6 +28,7 @@ public class PlayerCollision : MonoBehaviour
     {
         get { return isGrounded; }
     }
+
     private bool isTouchingWall;
     public bool IsTouchingWall
     {
@@ -42,9 +40,19 @@ public class PlayerCollision : MonoBehaviour
         get { return lastTouchedWall; }
     }
 
+    private bool isTouchingDoor;
+    public bool IsTouchingDoor
+    {
+        get { return isTouchingDoor; }
+    }
+    private DoorsController lastTouchedDoor;
+    public DoorsController LastTouchedDoor
+    {
+        get { return lastTouchedDoor; }
+    }
+
     private void Awake()
     {
-        playerController = GetComponent<PlayerDoorHandler>();
         results = new RaycastHit2D[10];
     }
     public void Update()
@@ -126,8 +134,10 @@ public class PlayerCollision : MonoBehaviour
 
         if (door != null)
         {
-            playerController.OnDoorCollisionDetected(door);
-            currentlyTouchedDoor = door;
+            isTouchingDoor = true;
+            lastTouchedDoor = door;
+            //playerController.OnDoorCollisionDetected(door);
+            //currentlyTouchedDoor = door;
         }
     }
 
@@ -135,10 +145,13 @@ public class PlayerCollision : MonoBehaviour
     {
         DoorsController door = other.gameObject.GetComponent<DoorsController>();
 
-        if (door != null && door == currentlyTouchedDoor)
+        if (door != null && door == lastTouchedDoor)
         {
-            playerController.OnDoorCollisionEnd();
-            currentlyTouchedDoor = null;
+            isTouchingDoor = false;
+            // ???? lastTouchedDoor = door;
+
+            //playerController.OnDoorCollisionEnd();
+            //currentlyTouchedDoor = null;
         }
     }
     private void OnDrawGizmos()

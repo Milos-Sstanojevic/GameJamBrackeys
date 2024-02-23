@@ -18,6 +18,10 @@ public class CinemachineManager : MonoBehaviour
     private CinemachineTargetGroup framingGroup;
 
     public static CinemachineManager Instance;
+    private void OnEnable()
+    {
+        EventManager.Instance.SubscribeToPlayerTeleported(OnTeleportationFinished);
+    }
     private void Awake()
     {
         if (Instance == null)
@@ -38,12 +42,12 @@ public class CinemachineManager : MonoBehaviour
 
         framingGroup = (new GameObject()).AddComponent<CinemachineTargetGroup>();
     }
-    public void OnTeleportFinished(Vector3 newPosition)
+    public void OnTeleportationFinished(GameObject player)
     {
         var newCollider = colliders.Find(c =>
         {
             c.enabled = true;
-            var b = c.OverlapPoint(newPosition);
+            var b = c.OverlapPoint(player.transform.position);
             c.enabled = false;
 
             return b;

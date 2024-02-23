@@ -12,7 +12,7 @@ public class PlayerDoorInventoryHandler : MonoBehaviour
             DoorsController door = PlayerDoorInventory.Instance[i];
             if (door != null)
             {
-                EventManager.Instance.OnSelectedDoor(door);
+                EventManager.Instance.OnSelectDoor(door);
             }
         }
     }

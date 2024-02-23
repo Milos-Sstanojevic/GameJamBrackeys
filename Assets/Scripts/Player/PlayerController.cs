@@ -52,8 +52,8 @@ public class PlayerController : MonoBehaviour
         collisionComponent = GetComponent<PlayerCollision>();
         audioSource = GetComponent<AudioSource>();
 
-        EventManager.Instance.SubscribeToCollectedJumpsAdder(AddJumps);
-        EventManager.Instance.SubscribeToCollectedWallJump(EnableWallJump);
+        EventManager.Instance.SubscribeToCollectJumpsAdder(AddJumps);
+        EventManager.Instance.SubscribeToCollectWallJump(EnableWallJump);
 
 
 
@@ -61,8 +61,8 @@ public class PlayerController : MonoBehaviour
     }
     private void OnDisable()
     {
-        EventManager.Instance.UnsubscribeToCollectedJumpsAdder(AddJumps);
-        EventManager.Instance.UnsubscribeToCollectedWallJump(EnableWallJump);
+        EventManager.Instance.UnsubscribeToCollectJumpsAdder(AddJumps);
+        EventManager.Instance.UnsubscribeToCollectWallJump(EnableWallJump);
     }
 
     void Start()
