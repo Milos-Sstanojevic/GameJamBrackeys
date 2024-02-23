@@ -6,17 +6,12 @@ using UnityEngine.Pool;
 
 public class BulletPool : MonoBehaviour
 {
-    public static BulletPool Instance;
-
     [SerializeField] GameObject bulletPrefab;
 
     private ObjectPool<Bullet> pool;
-    private void Awake()
-    {
-        CreateSingleton();
-    }
 
-    void CreateSingleton()
+    public static BulletPool Instance;
+    private void Awake()
     {
         if (Instance == null)
         {

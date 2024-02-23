@@ -22,6 +22,10 @@ public class CinemachineManager : MonoBehaviour
     {
         EventManager.Instance.SubscribeToPlayerTeleported(OnTeleportationFinished);
     }
+    private void OnDisable()
+    {
+        EventManager.Instance.UnsubscribeToPlayerTeleported(OnTeleportationFinished);
+    }
     private void Awake()
     {
         if (Instance == null)

@@ -12,14 +12,20 @@ public class Framing : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            CinemachineManager.Instance?.Frame(target1, target2);
+            if (CinemachineManager.Instance != null)
+            {
+                CinemachineManager.Instance.Frame(target1, target2);
+            }
         }
     }
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            CinemachineManager.Instance?.Unframe(delay);
+            if (CinemachineManager.Instance != null)
+            {
+                CinemachineManager.Instance.Unframe(delay);
+            }
         }
     }
 }

@@ -170,7 +170,7 @@ public class PlayerDoorHandler : MonoBehaviour
         door.transform.eulerAngles = rotation == Rotation.horizontal ? new Vector3(0, 0, 0) : new Vector3(0, 0, 90);
         door.gameObject.SetActive(true);
 
-        // Fire event that u placed door
+        EventManager.Instance.OnPlaceDoor(door);
     }
     private void HandleCollectingDoor()
     {

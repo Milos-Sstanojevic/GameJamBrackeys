@@ -12,14 +12,9 @@ public class UIDoorManager : MonoBehaviour
 
     private DoorsController selectedDoor;
     private List<DoorsControllerUIWrapper> wrappers;
-    
-    private void Start()
+    private void Awake()
     {
         wrappers = new List<DoorsControllerUIWrapper>();
-        foreach (DoorsController controller in PlayerDoorInventory.Instance.GetDoorsInPlayerInventory())
-        {
-            Add(controller);
-        }
     }
     private void OnEnable()
     {
@@ -74,12 +69,12 @@ public class UIDoorManager : MonoBehaviour
     {
         selector.transform.SetParent(null, false);
         selector.transform.localPosition = Vector3.zero;
-        selector.gameObject.SetActive(false);
+        selector.SetActive(false);
     }
     private void AttachSelector(Transform parent)
     {
         selector.transform.SetParent(parent, false);
         selector.transform.localPosition = Vector3.zero;
-        selector.gameObject.SetActive(true);
+        selector.SetActive(true);
     }
 }

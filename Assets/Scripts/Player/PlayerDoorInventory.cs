@@ -3,30 +3,32 @@ using UnityEngine;
 
 public class PlayerDoorInventory : MonoBehaviour
 {
-    public static PlayerDoorInventory Instance { get; private set; }
     private List<DoorsController> inventoryOfPlayer;
 
+    private void OnEnable()
+    {
+        EventManager.Instance.SubscribeToCollectedDoor(AddDoorToPlayerInventory);
+        EventManager.Instance.SubscribeToPlaceDoor(TakeDoorFromInventory);
+    }
+    private void OnDisable()
+    {
+        EventManager.Instance.UnsubscribeToCollectedDoor(AddDoorToPlayerInventory);
+        EventManager.Instance.UnsubscribeToPlaceDoor(TakeDoorFromInventory);
+    }
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            //Destroy(gameObject);
-        }
-
         inventoryOfPlayer = new List<DoorsController>();
     }
 
     public void AddDoorToPlayerInventory(DoorsController door)
     {
+        Debug.Log("Adding");
         inventoryOfPlayer.Add(door);
     }
-    public DoorsController TakeDoorFromInventory(DoorsController door)
+    public void TakeDoorFromInventory(DoorsController door)
     {
-        return inventoryOfPlayer.Remove(door) ? door : null;
+        Debug.Log("Removing");
+        inventoryOfPlayer.Remove(door);
     }
     public List<DoorsController> GetDoorsInPlayerInventory() => inventoryOfPlayer;
     public DoorsController this[int index]

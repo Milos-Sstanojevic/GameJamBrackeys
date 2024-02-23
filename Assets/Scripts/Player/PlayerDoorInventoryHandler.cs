@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class PlayerDoorInventoryHandler : MonoBehaviour
 {
+    PlayerDoorInventory inventory;
+    private void Awake()
+    {
+        inventory = GetComponent<PlayerDoorInventory>();
+    }
     void Update()
     {
         int i = getPressedIndex();
         if (i >= 0)
         {
-            DoorsController door = PlayerDoorInventory.Instance[i];
+            DoorsController door = inventory[i];
             if (door != null)
             {
                 EventManager.Instance.OnSelectDoor(door);

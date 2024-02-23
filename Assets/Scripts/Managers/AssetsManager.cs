@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class AssetsManager : MonoBehaviour
 {
-    [SerializeField] public GameObject redUIDoors;
-    [SerializeField] public GameObject greenUIDoors;
-    [SerializeField] public GameObject blueUIDoors;
-    [SerializeField] public GameObject purpleUIDoors;
+    public GameObject redUIDoors;
+    public GameObject greenUIDoors;
+    public GameObject blueUIDoors;
+    public GameObject purpleUIDoors;
 
 
-    [SerializeField] public GameObject redDoors;
-    [SerializeField] public GameObject greenDoors;
-    [SerializeField] public GameObject blueDoors;
-    [SerializeField] public GameObject purpleDoors;
+    public GameObject redDoors;
+    public GameObject greenDoors;
+    public GameObject blueDoors;
+    public GameObject purpleDoors;
 
     public GameObject GetUIDoorsPrefab(DoorColor color)
     {

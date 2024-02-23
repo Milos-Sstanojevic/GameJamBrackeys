@@ -99,10 +99,11 @@ public class PlayerCollision : MonoBehaviour
             var headPosition = transform.position + headOffset * Vector3.up;
 
             int c5 = Physics2D.RaycastNonAlloc(headPosition, Vector3.up, results, checkDepth);
+
             if (AnyIsPlatform(results, c5))
             {
-                //EventManager.Instance.OnPlayerDied();
-            }    
+                EventManager.Instance.OnPlayerDied();
+            }
         }
     }
     private GameObject lastTrueTriggeringObject;
@@ -156,6 +157,8 @@ public class PlayerCollision : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
+        Gizmos.DrawSphere(transform.position + headOffset * Vector3.up, .1f);
+
         Gizmos.DrawLine(leftFeet, leftFeet + Vector3.down * checkDepth);
         Gizmos.DrawLine(rightFeet, rightFeet + Vector3.down * checkDepth);
 

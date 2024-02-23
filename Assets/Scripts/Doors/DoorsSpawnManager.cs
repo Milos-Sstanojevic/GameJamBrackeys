@@ -27,10 +27,12 @@ public class DoorsSpawnManager : MonoBehaviour
     private void OnEnable()
     {
         EventManager.Instance.SubscribeToCollectToken(CollectDoor);
+        EventManager.Instance.SubscribeToCollectDoor(CollectDoor);
     }
     private void OnDisable()
     {
         EventManager.Instance.UnsubscribeToCollectToken(CollectDoor);
+        EventManager.Instance.UnsubscribeToCollectDoor(CollectDoor);
     }
     private void Start()
     {

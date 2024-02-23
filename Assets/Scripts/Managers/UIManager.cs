@@ -21,11 +21,21 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] Slider healthBar;
     [SerializeField] TMP_Text keysCountDisplay;
-    void Start()
+
+    private void OnEnable()
     {
         EventManager.Instance.SubscribeToLeftJumpsChanged(OnJumpCountChanged);
         EventManager.Instance.SubscribeToHealthChanged(OnHealthChanged);
         EventManager.Instance.SubscribeToKeysCountChanged(OnKeysCountChanged);
+    }
+    private void OnDisable()
+    {
+        EventManager.Instance.UnsubscribeToLeftJumpsChanged(OnJumpCountChanged);
+        EventManager.Instance.UnsubscribeToHealthChanged(OnHealthChanged);
+        EventManager.Instance.UnsubscribeToKeysCountChanged(OnKeysCountChanged);
+    }
+    void Start()
+    {
 
         jiTransform = jumpIndicator.GetComponent<RectTransform>();
         jiImage = jumpIndicator.GetComponent<Image>();
