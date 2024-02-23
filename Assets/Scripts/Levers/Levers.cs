@@ -1,4 +1,3 @@
-using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,20 +67,6 @@ public class Levers : MonoBehaviour
             }
         }
     }
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            CinemachineManager.Instance.Frame(transform, movingDoors[0].transform);
-        }
-    }
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            CinemachineManager.Instance.Unframe(1f);
-        }
-    }
     private void OnTriggerStay2D(Collider2D other)
     {
         if (other.GetComponent<PlayerController>() != null)
@@ -110,7 +95,6 @@ public class Levers : MonoBehaviour
 
     private IEnumerator MoveDoors(Transform movingPlatform, Vector3 target)
     {
-        Debug.Log("Lever Clicked za " + movingPlatform.name);
         Vector3 startPosition = movingPlatform.position;
         float elapsedTime = 0;
 

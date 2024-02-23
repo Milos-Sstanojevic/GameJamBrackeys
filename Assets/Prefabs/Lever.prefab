@@ -96,8 +96,9 @@ GameObject:
   - component: {fileID: 5857046938749985180}
   - component: {fileID: 5564316476753265730}
   - component: {fileID: 6100253877082003484}
-  - component: {fileID: 2988395774678479398}
   - component: {fileID: 2478946657699228785}
+  - component: {fileID: 2988395774678479398}
+  - component: {fileID: 8678640218649743437}
   m_Layer: 0
   m_Name: Lever
   m_TagString: Untagged
@@ -239,22 +240,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.7, y: 2.7875738}
   m_EdgeRadius: 0
---- !u!114 &2988395774678479398
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1668935375173509333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ef395d837629ac479e4e905a6d82e96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timer: 10
-  moveSpeed: 3
-  distance: 5
-  movingDoors: []
 --- !u!82 &2478946657699228785
 AudioSource:
   m_ObjectHideFlags: 0
@@ -351,3 +336,35 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2988395774678479398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1668935375173509333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef395d837629ac479e4e905a6d82e96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: 10
+  moveSpeed: 3
+  distance: 5
+  movingDoors: []
+--- !u!114 &8678640218649743437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1668935375173509333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fa6d222fd2f74d4980477133045cc48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: 0
+  target1: {fileID: 5302291913502656774}
+  target2: {fileID: 0}
+  delay: 1
