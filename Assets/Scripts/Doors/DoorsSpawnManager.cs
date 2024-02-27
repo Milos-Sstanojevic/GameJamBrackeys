@@ -53,6 +53,7 @@ public class DoorsSpawnManager : MonoBehaviour
     private void CollectToken(DoorColor color)
     {
         DoorsController doorsController = CreateDoorWithController(color);
+        doorsController.gameObject.SetActive(false);
 
         doors.Add(doorsController);
         EventManager.Instance.OnPickedUpDoor(doorsController);
@@ -64,9 +65,9 @@ public class DoorsSpawnManager : MonoBehaviour
     }
     private DoorsController CreateDoorWithController(DoorColor color)
     {
-        GameObject door = Instantiate(AssetsManager.Instance.GetDoorsPrefab(color));
+        GameObject dummy = AssetsManager.Instance.GetColoredDummy(color);
 
-        DoorsController doorsController = door.AddComponent<DoorsController>();
+        DoorsController doorsController = dummy.AddComponent<DoorsController>();
         doorsController.DoorColor = color;
         doorsController.IsPremadeInScene = false;
 
@@ -74,6 +75,6 @@ public class DoorsSpawnManager : MonoBehaviour
     }
     public GameObject CreateDummyDoor(DoorColor color)
     {
-        return Instantiate(AssetsManager.Instance.GetDoorsPrefab(color));
+        return AssetsManager.Instance.GetColoredDummy(color);
     }
 }

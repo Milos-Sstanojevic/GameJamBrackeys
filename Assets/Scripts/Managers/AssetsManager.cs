@@ -4,63 +4,99 @@ using UnityEngine;
 
 public class AssetsManager : MonoBehaviour
 {
-    public GameObject redUIDoors;
-    public GameObject greenUIDoors;
-    public GameObject blueUIDoors;
-    public GameObject purpleUIDoors;
-
-
-    public GameObject redDoors;
-    public GameObject greenDoors;
-    public GameObject blueDoors;
-    public GameObject purpleDoors;
+    [SerializeField] GameObject DummyDoor;
+    [SerializeField] List<GameObject> UIDoors;
 
     public GameObject GetUIDoorsPrefab(DoorColor color)
     {
-        if (color == DoorColor.Red)
-        {
-            return redUIDoors;
-        }
-        else if (color == DoorColor.Green)
-        {
-            return greenUIDoors;
-        }
-        else if (color == DoorColor.Blue)
-        {
-            return blueUIDoors;
-        }
-        else if (color == DoorColor.Purple)
-        {
-            return purpleUIDoors;
-        }
-        else
-        {
-            return null;
-        }
+        return UIDoors.Find(d => d.name == color.ToString());
     }
-    public GameObject GetDoorsPrefab(DoorColor color)
+    public GameObject GetColoredDummy(DoorColor color)
     {
-        if (color == DoorColor.Red)
+        var go = Instantiate(DummyDoor);
+        go.GetComponent<SpriteRenderer>().color = GetRGB(color);
+
+        return go;
+    }
+    public static Color GetRGB(DoorColor color)
+    {
+        switch (color)
         {
-            return redDoors;
-        }
-        else if (color == DoorColor.Green)
-        {
-            return greenDoors;
-        }
-        else if (color == DoorColor.Blue)
-        {
-            return blueDoors;
-        }
-        else if (color == DoorColor.Purple)
-        {
-            return purpleDoors;
-        }
-        else
-        {
-            return null;
+            case DoorColor.Red:
+                return new Color(1f, 0f, 0f);
+            case DoorColor.Green:
+                return new Color(.4f, 1f, 0f);
+            case DoorColor.Blue:
+                return new Color(0f, .77f, 1f);
+            case DoorColor.Purple:
+                return new Color(.54f, .17f, .89f);
+            case DoorColor.Pink:
+                return new Color(1f, .57f, .69f);
+            case DoorColor.Orange:
+                return new Color(1f, .55f, 0f);
+            case DoorColor.Yellow:
+                return new Color(1f, .94f, 0f);
+            default:
+                return Color.black;
         }
     }
+
+    //public GameObject redUIDoors;
+    //public GameObject greenUIDoors;
+    //public GameObject blueUIDoors;
+    //public GameObject purpleUIDoors;
+
+
+    //public GameObject redDoors;
+    //public GameObject greenDoors;
+    //public GameObject blueDoors;
+    //public GameObject purpleDoors;
+
+    //public GameObject GetUIDoorsPrefab(DoorColor color)
+    //{
+    //    switch (color)
+    //    {
+    //        case DoorColor.Red:
+    //            return redUIDoors;
+    //        case DoorColor.Green:
+    //            return greenUIDoors;
+    //        case DoorColor.Blue:
+    //            return blueUIDoors;
+    //        case DoorColor.Purple:
+    //            return purpleUIDoors;
+    //        case DoorColor.Pink:
+    //            return null;
+    //        case DoorColor.Orange:
+    //            return null;
+    //        case DoorColor.Yellow:
+    //            return null;
+    //        default: 
+    //            return null;
+    //    }
+    //}
+
+    //public GameObject GetDoorsPrefab(DoorColor color)
+    //{
+    //    switch (color)
+    //    {
+    //        case DoorColor.Red:
+    //            return redDoors;
+    //        case DoorColor.Green:
+    //            return greenDoors;
+    //        case DoorColor.Blue:
+    //            return blueDoors;
+    //        case DoorColor.Purple:
+    //            return purpleDoors;
+    //        case DoorColor.Pink:
+    //            return null;
+    //        case DoorColor.Orange:
+    //            return null;
+    //        case DoorColor.Yellow:
+    //            return null;
+    //        default:
+    //            return null;
+    //    }
+    //}
 
 
 

@@ -14,6 +14,7 @@ public class CinemachineManager : MonoBehaviour
     private CinemachineVirtualCamera framingVirtualCamera;
 
     private CinemachineConfiner2D mainVirtualCameraConfiner;
+    private CinemachineConfiner2D framingVirtualCameraConfiner;
 
     private CinemachineTargetGroup framingGroup;
 
@@ -43,6 +44,8 @@ public class CinemachineManager : MonoBehaviour
         framingVirtualCamera = Instantiate(mainVirtualCamera);
         framingVirtualCamera.transform.SetParent(transform);
         framingVirtualCamera.gameObject.SetActive(false);
+
+        framingVirtualCameraConfiner = framingVirtualCamera.GetComponent<CinemachineConfiner2D>();
 
         framingGroup = (new GameObject()).AddComponent<CinemachineTargetGroup>();
     }
@@ -78,6 +81,8 @@ public class CinemachineManager : MonoBehaviour
 
         framingGroup.m_Targets[0].weight = 1f;
         framingGroup.m_Targets[1].weight = 1f;
+
+        framingVirtualCameraConfiner.m_BoundingShape2D = mainVirtualCameraConfiner.m_BoundingShape2D;
 
         mainVirtualCamera.gameObject.SetActive(false);
         framingVirtualCamera.gameObject.SetActive(true);
