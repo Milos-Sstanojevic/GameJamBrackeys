@@ -18,7 +18,6 @@ public class DoorsController : MonoBehaviour
     public void TeleportPlayer(GameObject player)
     {
         List<DoorsController> doors = DoorsSpawnManager.Instance.GetActiveDoorsOfColor(this.DoorColor);
-        Debug.Log("Count: " + doors.Count);
         if (doors.Count == 2)
         {
             DoorsController other = doors.Find(d => d != this);
@@ -28,7 +27,4 @@ public class DoorsController : MonoBehaviour
             EventManager.Instance.OnPlayerTeleported(player);
         }
     }
-
-    //public DoorColor GetDoorColor() => doorColor;
-    //public bool IsDoorPremadeInScene() => isPremadeInScene;
 }

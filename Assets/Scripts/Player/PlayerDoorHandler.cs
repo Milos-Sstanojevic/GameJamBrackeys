@@ -181,7 +181,7 @@ public class PlayerDoorHandler : MonoBehaviour
                 DoorsController touchedDoor = playerCollision.LastTouchedDoor;
                 if (!touchedDoor.IsPremadeInScene)
                 {
-                    EventManager.Instance.OnCollectDoor(touchedDoor);
+                    EventManager.Instance.OnPickUpDoor(touchedDoor);
                 }
             }
         }

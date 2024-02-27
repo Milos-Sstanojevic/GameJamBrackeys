@@ -11,8 +11,8 @@ public class EventManager : MonoBehaviour
 
     private event Action<DoorColor> collectToken;
 
-    private event Action<DoorsController> collectDoor;
-    private event Action<DoorsController> collectedDoor;
+    private event Action<DoorsController> pickUpDoor;
+    private event Action<DoorsController> pickedUpDoor;
 
     private event Action<GameObject> playerTeleported;
 
@@ -88,34 +88,34 @@ public class EventManager : MonoBehaviour
 
 
 
-    public void SubscribeToCollectDoor(Action<DoorsController> action)
+    public void SubscribeToPickUpDoor(Action<DoorsController> action)
     {
-        collectDoor += action;
+        pickUpDoor += action;
     }
-    public void UnsubscribeToCollectDoor(Action<DoorsController> action)
+    public void UnsubscribeToPickUpDoor(Action<DoorsController> action)
     {
-        collectDoor -= action;
+        pickUpDoor -= action;
     }
-    public void OnCollectDoor(DoorsController doorsController)
+    public void OnPickUpDoor(DoorsController doorsController)
     {
-        collectDoor?.Invoke(doorsController);
+        pickUpDoor?.Invoke(doorsController);
     }
 
 
 
 
 
-    public void SubscribeToCollectedDoor(Action<DoorsController> action)
+    public void SubscribeToPickedUpDoor(Action<DoorsController> action)
     {
-        collectedDoor += action;
+        pickedUpDoor += action;
     }
-    public void UnsubscribeToCollectedDoor(Action<DoorsController> action)
+    public void UnsubscribeToPickedUpDoor(Action<DoorsController> action)
     {
-        collectedDoor -= action;
+        pickedUpDoor -= action;
     }
-    public void OnCollectedDoor(DoorsController doorsController)
+    public void OnPickedUpDoor(DoorsController doorsController)
     {
-        collectedDoor?.Invoke(doorsController);
+        pickedUpDoor?.Invoke(doorsController);
     }
 
 

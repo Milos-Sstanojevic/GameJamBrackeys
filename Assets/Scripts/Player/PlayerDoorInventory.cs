@@ -7,12 +7,12 @@ public class PlayerDoorInventory : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.Instance.SubscribeToCollectedDoor(AddDoorToPlayerInventory);
+        EventManager.Instance.SubscribeToPickedUpDoor(AddDoorToPlayerInventory);
         EventManager.Instance.SubscribeToPlaceDoor(TakeDoorFromInventory);
     }
     private void OnDisable()
     {
-        EventManager.Instance.UnsubscribeToCollectedDoor(AddDoorToPlayerInventory);
+        EventManager.Instance.UnsubscribeToPickedUpDoor(AddDoorToPlayerInventory);
         EventManager.Instance.UnsubscribeToPlaceDoor(TakeDoorFromInventory);
     }
     private void Awake()
@@ -22,12 +22,10 @@ public class PlayerDoorInventory : MonoBehaviour
 
     public void AddDoorToPlayerInventory(DoorsController door)
     {
-        Debug.Log("Adding");
         inventoryOfPlayer.Add(door);
     }
     public void TakeDoorFromInventory(DoorsController door)
     {
-        Debug.Log("Removing");
         inventoryOfPlayer.Remove(door);
     }
     public List<DoorsController> GetDoorsInPlayerInventory() => inventoryOfPlayer;

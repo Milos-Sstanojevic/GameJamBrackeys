@@ -26,13 +26,13 @@ public class DoorsSpawnManager : MonoBehaviour
     }
     private void OnEnable()
     {
-        EventManager.Instance.SubscribeToCollectToken(CollectDoor);
-        EventManager.Instance.SubscribeToCollectDoor(CollectDoor);
+        EventManager.Instance.SubscribeToCollectToken(CollectToken);
+        EventManager.Instance.SubscribeToPickUpDoor(PickUpDoor);
     }
     private void OnDisable()
     {
-        EventManager.Instance.UnsubscribeToCollectToken(CollectDoor);
-        EventManager.Instance.UnsubscribeToCollectDoor(CollectDoor);
+        EventManager.Instance.UnsubscribeToCollectToken(CollectToken);
+        EventManager.Instance.UnsubscribeToPickUpDoor(PickUpDoor);
     }
     private void Start()
     {
@@ -43,26 +43,24 @@ public class DoorsSpawnManager : MonoBehaviour
 
         foreach (DoorColor color in doorsPlayerStartsWith)
         {
-            CollectDoor(color);
+            CollectToken(color);
         }
     }
     public List<DoorsController> GetActiveDoorsOfColor(DoorColor color)
     {
         return doors.FindAll(d => d.gameObject.activeSelf && d.DoorColor == color);
     }
-    private void CollectDoor(DoorColor color)
+    private void CollectToken(DoorColor color)
     {
         DoorsController doorsController = CreateDoorWithController(color);
 
         doors.Add(doorsController);
-        EventManager.Instance.OnCollectedDoor(doorsController);
+        EventManager.Instance.OnPickedUpDoor(doorsController);
     }
-    private void CollectDoor(DoorsController doorsController)
+    private void PickUpDoor(DoorsController doorsController)
     {
         doorsController.gameObject.SetActive(false);
-
-        //doors.Add(doorsController);
-        EventManager.Instance.OnCollectedDoor(doorsController);
+        EventManager.Instance.OnPickedUpDoor(doorsController);
     }
     private DoorsController CreateDoorWithController(DoorColor color)
     {

@@ -18,13 +18,13 @@ public class UIDoorManager : MonoBehaviour
     }
     private void OnEnable()
     {
-        EventManager.Instance.SubscribeToCollectedDoor(Add);
+        EventManager.Instance.SubscribeToPickedUpDoor(Add);
         EventManager.Instance.SubscribeToPlaceDoor(Remove);
         EventManager.Instance.SubscribeToSelectDoor(OnSelectedDoor);
     }
     private void OnDisable()
     {
-        EventManager.Instance.UnsubscribeToCollectedDoor(Add);
+        EventManager.Instance.UnsubscribeToPickedUpDoor(Add);
         EventManager.Instance.UnsubscribeToPlaceDoor(Remove);
         EventManager.Instance.UnsubscribeToSelectDoor(OnSelectedDoor);
     }
