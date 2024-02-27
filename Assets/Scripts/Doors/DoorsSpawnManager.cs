@@ -61,7 +61,7 @@ public class DoorsSpawnManager : MonoBehaviour
     {
         doorsController.gameObject.SetActive(false);
 
-        doors.Add(doorsController);
+        //doors.Add(doorsController);
         EventManager.Instance.OnCollectedDoor(doorsController);
     }
     private DoorsController CreateDoorWithController(DoorColor color)
