@@ -13,6 +13,7 @@ public class LockedDoorController : MonoBehaviour
             if (playerKeysController.HasKeys())
             {
                 playerKeysController.UseKey();
+                Instantiate(AssetsManager.Instance.LockedDoorVFX).transform.position = transform.position;
                 Destroy(gameObject);
             }
         }

@@ -20,10 +20,12 @@ public class EventManager : MonoBehaviour
     private event Action<int> healthChanged;
     private event Action<int> keysCountChanged;
 
-    private event Action playerDied;
+    private event Action lethalDamageTaken;
 
     private event Action<DoorsController> selectDoor;
     private event Action<DoorsController> placeDoor;
+
+    private event Action tutorialsWithoutInventoryFinished;
 
     private event Action<PlatformsControlledByLevers> onChangeDirection;
 
@@ -38,6 +40,23 @@ public class EventManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    public void SubscribeToTutorialsWithoutInventoryFinished(Action action)
+    {
+        tutorialsWithoutInventoryFinished += action;
+    }
+    public void UnsubscribeToTutorialsWithoutInventoryFinished(Action action)
+    {
+        tutorialsWithoutInventoryFinished -= action;
+    }
+    public void OnTutorialsWithoutInventoryFinished()
+    {
+        tutorialsWithoutInventoryFinished?.Invoke();
+    }
+
+
+
+
+
     public void SubscribeToCollectJumpsAdder(Action action)
     {
         collectJumpsAdder += action;
@@ -50,6 +69,7 @@ public class EventManager : MonoBehaviour
     {
         collectJumpsAdder?.Invoke();
     }
+
 
 
 
@@ -190,17 +210,17 @@ public class EventManager : MonoBehaviour
 
 
 
-    public void SubscribeToPlayerDied(Action action)
+    public void SubscribeToLethalDamageTaken(Action action)
     {
-        playerDied += action;
+        lethalDamageTaken += action;
     }
-    public void UnsubscribeToPlayerDied(Action action)
+    public void UnsubscribeToLethalDamageTaken(Action action)
     {
-        playerDied -= action;
+        lethalDamageTaken -= action;
     }
-    public void OnPlayerDied()
+    public void OnLethalDamageTaken()
     {
-        playerDied?.Invoke();
+        lethalDamageTaken?.Invoke();
     }
 
 

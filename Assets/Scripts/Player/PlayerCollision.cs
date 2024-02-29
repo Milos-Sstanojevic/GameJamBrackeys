@@ -102,7 +102,7 @@ public class PlayerCollision : MonoBehaviour
 
             if (AnyIsPlatform(results, c5))
             {
-                EventManager.Instance.OnPlayerDied();
+                EventManager.Instance.OnLethalDamageTaken();
             }
         }
     }
@@ -125,7 +125,7 @@ public class PlayerCollision : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Deadly"))
         {
-            EventManager.Instance.OnPlayerDied();
+            EventManager.Instance.OnLethalDamageTaken();
         }
     }
 

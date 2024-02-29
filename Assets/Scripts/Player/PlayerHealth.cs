@@ -17,10 +17,17 @@ public class PlayerHealth : MonoBehaviour
         }
         get { return health; }
     }
+    private void OnEnable()
+    {
+        EventManager.Instance.SubscribeToLethalDamageTaken(Die);
+    }
+    private void OnDisable()
+    {
+        EventManager.Instance.UnsubscribeToLethalDamageTaken(Die);
+    }
     private void Start()
     {
         Health = 100;
-        EventManager.Instance.SubscribeToPlayerDied(Die);
     }
     public void Die()
     {

@@ -7,6 +7,8 @@ public class AssetsManager : MonoBehaviour
     [SerializeField] GameObject DummyDoor;
     [SerializeField] List<GameObject> UIDoors;
 
+    [SerializeField] public GameObject LockedDoorVFX;
+
     public GameObject GetUIDoorsPrefab(DoorColor color)
     {
         return UIDoors.Find(d => d.name == color.ToString());

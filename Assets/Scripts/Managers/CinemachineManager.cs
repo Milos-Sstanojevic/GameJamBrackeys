@@ -68,6 +68,14 @@ public class CinemachineManager : MonoBehaviour
     private Coroutine coroutine = null;
     public void Frame(Transform target1, Transform target2)
     {
+        var test1 = Camera.main.WorldToViewportPoint(target1.position);
+        var test2 = Camera.main.WorldToViewportPoint(target1.position);
+
+        if (!(test1.x < 0f || test1.x > 1f ||
+              test1.y < 0f || test1.y > 1f ||
+              test2.x < 0f || test2.x > 1f ||
+              test2.y < 0f || test2.y > 1f)) return;
+
         if (coroutine != null)
         {
             StopCoroutine(coroutine);

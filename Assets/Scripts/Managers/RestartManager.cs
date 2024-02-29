@@ -7,20 +7,21 @@ public class RestartManager : MonoBehaviour
 {
     [SerializeField] private GameObject player;
 
+    public static RestartManager Instance;
     private void Awake()
     {
-        EventManager.Instance.SubscribeToPlayerDied(Restart);
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
     public void Restart()
     {
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        //Instantiate(player);
-    }
-
-    public void MainMenu()
-    {
-        Time.timeScale = 1;
-        SceneManager.LoadScene("MainMenu");
     }
 }
