@@ -1914,10 +1914,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbe6b68d49c31c7489e24a11c7b5ee29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  redUIDoors: {fileID: 6835448234311350060, guid: f8f4bb29d01ea514288c400564d016f7, type: 3}
-  greenUIDoors: {fileID: 6835448234311350060, guid: c79392b3c39c866419a479e1afb1b489, type: 3}
-  blueUIDoors: {fileID: 6835448234311350060, guid: 7510fb863b2dfef4098af7435677b94a, type: 3}
-  purpleUIDoors: {fileID: 6835448234311350060, guid: 5ad568a3e896abc42a5bca840acf294a, type: 3}
+  DummyDoor: {fileID: 0}
+  UIDoors: []
+  LockedDoorVFX: {fileID: 0}
 --- !u!1 &262268669
 GameObject:
   m_ObjectHideFlags: 0
@@ -1947,7 +1946,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57be2f9b784d1514a9030a567a46db00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  confiner: {fileID: 1229437822}
+  mainVirtualCameraGO: {fileID: 0}
   colliders:
   - {fileID: 1010829957}
 --- !u!4 &262268671
@@ -6037,14 +6036,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2dc7aa1a2bcf254b8689f0b0b52efdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorsPlayerStartsWith:
-  - {fileID: 9052736779835270637, guid: bb6084c005e5767428365d8d5422635f, type: 3}
+  doorsPlayerStartsWith: 00000000
   doorsInScene:
   - {fileID: 1506858549}
-  greenDoorPrefab: {fileID: 9052736779835270637, guid: 495d7f1650415da438cf3f89a4eba418, type: 3}
-  redDoorsPrefab: {fileID: 9052736779835270637, guid: bb6084c005e5767428365d8d5422635f, type: 3}
-  blueDoorsPrefab: {fileID: 9052736779835270637, guid: 433b46ccc6796354db2aa140ee065167, type: 3}
-  purpleDoorsPrefab: {fileID: 9052736779835270637, guid: c9439289a17678240b5ff29cfb3d7095, type: 3}
 --- !u!1 &677107572
 GameObject:
   m_ObjectHideFlags: 0
@@ -8081,7 +8075,7 @@ Transform:
   m_GameObject: {fileID: 1229437821}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.09, y: 2.56, z: -10}
+  m_LocalPosition: {x: 1, y: -1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10635,7 +10629,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9850a6631f510a84c90675eb44399b4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorScriptableObject: {fileID: 11400000, guid: c1121d028249ee241831deb79fd7d237, type: 2}
+  DoorColor: 0
+  IsPremadeInScene: 0
 --- !u!61 &1506858550
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11806,7 +11801,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c05555fade15833418cbb48f0192a9a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tokenScriptableObject: {fileID: 11400000, guid: fbe7173a30dffea41a26b28793d00718, type: 2}
+  doorColor: 0
 --- !u!212 &1730658679
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -14275,11 +14270,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4756803729416153157, guid: 4145d59256534354d961cc5b845b82f1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.09
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4756803729416153157, guid: 4145d59256534354d961cc5b845b82f1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.56
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 4756803729416153157, guid: 4145d59256534354d961cc5b845b82f1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -14312,14 +14307,6 @@ PrefabInstance:
     - target: {fileID: 4756803729416153157, guid: 4145d59256534354d961cc5b845b82f1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5630037831383836757, guid: 4145d59256534354d961cc5b845b82f1, type: 3}
-      propertyPath: MaxJumps
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5630037831383836757, guid: 4145d59256534354d961cc5b845b82f1, type: 3}
-      propertyPath: WallJumpEnabled
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14418,7 +14405,7 @@ Transform:
   m_GameObject: {fileID: 1929140033}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.09, y: 2.56, z: -10}
+  m_LocalPosition: {x: 1, y: -1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14847,7 +14834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c05555fade15833418cbb48f0192a9a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tokenScriptableObject: {fileID: 11400000, guid: fbe7173a30dffea41a26b28793d00718, type: 2}
+  doorColor: 0
 --- !u!212 &2049629864
 SpriteRenderer:
   m_ObjectHideFlags: 0

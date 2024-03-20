@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TutorialScenarist : MonoBehaviour
 {
@@ -35,5 +36,9 @@ public class TutorialScenarist : MonoBehaviour
     {
         CanvasesManager.Instance.ShowMainCanvas();
         inventoryHandler.enabled = true;
+    }
+    public void Finish()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
